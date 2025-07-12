@@ -1,4 +1,3 @@
-
 A KubeJS addon for pack dev to easily create custom bows.
 
 ```
