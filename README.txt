@@ -1,7 +1,7 @@
 
 A KubeJS addon for pack dev to easily create custom bows.
 
-```js
+```
 StartupEvents.registry("item", event => {
   	event.create("test_bow", "bow")
 	.bow(bow => {
