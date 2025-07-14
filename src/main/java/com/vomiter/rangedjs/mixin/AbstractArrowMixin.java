@@ -1,10 +1,7 @@
 package com.vomiter.rangedjs.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
-import com.vomiter.rangedjs.projectile.ArrowHitEntityEventJS;
-import com.vomiter.rangedjs.projectile.HitBehavior;
-import com.vomiter.rangedjs.projectile.ProjectileHitEntityEventJS;
-import com.vomiter.rangedjs.projectile.ProjectileInterface;
+import com.vomiter.rangedjs.projectile.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -26,16 +23,12 @@ public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInte
     private void doOnHitEntity(EntityHitResult hitResult, CallbackInfo ci){
         ArrowHitEntityEventJS eventJS = new ArrowHitEntityEventJS(hitResult, (Projectile) (Object) this);
         HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
-        if(hitBehavior == null) return;
         Optional.ofNullable(hitBehavior.getHitEntity()).orElse(t->{}).accept(eventJS);
-        if(eventJS.getEventResult().equals(ProjectileHitEntityEventJS.Result.DENY)){
+        if(eventJS.getEventResult().equals(ArrowHitEntityEventJS.Result.DENY)){
             ci.cancel();
         }
         else{
-            ProjectileHitEntityEventJS.eventResultMap.put(
-                    hitResult.hashCode(),
-                    eventJS.getEventResult().equals(ProjectileHitEntityEventJS.Result.ALLOW)
-            );
+            //ProjectileHitEntityEventJS.eventResultMap.put(hitResult.hashCode(),eventJS.getEventResult().equals(ProjectileHitEntityEventJS.Result.ALLOW)            );
         }
     }
 

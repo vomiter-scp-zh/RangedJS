@@ -1,15 +1,17 @@
 package com.vomiter.rangedjs.mixin;
 
-import com.vomiter.rangedjs.projectile.HitBehavior;
-import com.vomiter.rangedjs.projectile.ProjectileInterface;
+import com.vomiter.rangedjs.projectile.*;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Optional;
 
 @Mixin(value = Projectile.class)
 public class ProjectileMixin implements ProjectileInterface {
@@ -19,7 +21,7 @@ public class ProjectileMixin implements ProjectileInterface {
     @RemapForJS("getHitConsumerContainer")
     @Override
     public HitBehavior rangedjs$getHitBehavior(){
-        return this.rangedjs$hitBehavior;
+        return Optional.ofNullable(this.rangedjs$hitBehavior).orElse(new HitBehavior());
     }
 
     @RemapForJS("setHitConsumerContainer")
@@ -27,6 +29,32 @@ public class ProjectileMixin implements ProjectileInterface {
     public void rangedjs$setHitBehavior(HitBehavior h){
         this.rangedjs$hitBehavior = h;
     }
+
+    @Inject(method = "onHitEntity", at = @At("HEAD"), cancellable = true)
+    private void doOnHitEntity(EntityHitResult hitResult, CallbackInfo ci){
+        ProjectileHitEntityEventJS eventJS = new ProjectileHitEntityEventJS(hitResult, (Projectile) (Object) this);
+        HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
+        Optional.ofNullable(hitBehavior.getHitEntity()).orElse(t->{}).accept(eventJS);
+        if(eventJS.getEventResult().equals(ProjectileHitEventJS.Result.DENY)){
+            ci.cancel();
+        }
+        else{
+            //ProjectileHitEntityEventJS.eventResultMap.put(hitResult.hashCode(),eventJS.getEventResult().equals(ProjectileHitEntityEventJS.Result.ALLOW)            );
+        }
+    }
+
+    @Inject(method = "onHitBlock", at = @At("HEAD"), cancellable = true)
+    private void doOnHitBlock(BlockHitResult hitResult, CallbackInfo ci){
+        ProjectileHitBlockEventJS eventJS = new ProjectileHitBlockEventJS(hitResult, (Projectile) (Object) this);
+        HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
+        Optional.ofNullable(hitBehavior.getHitBlock()).orElse(t->{}).accept(eventJS);
+        if(eventJS.getEventResult().equals(ProjectileHitEventJS.Result.DENY)){
+            ci.cancel();
+        }
+    }
+
+
+
 
 
 }

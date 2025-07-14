@@ -3,6 +3,7 @@ package com.vomiter.rangedjs.mixin;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.rangedjs.item.bow.BowItemInterface;
+import com.vomiter.rangedjs.item.bow.BowUtils;
 import com.vomiter.rangedjs.projectile.ProjectileInterface;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.BowItem;
@@ -82,6 +83,8 @@ public abstract class BowAttributesOnReleaseMixin implements BowItemInterface {
             ordinal = 0
     )
     private AbstractArrow modifyArrowFinal(AbstractArrow arrow){
+        double damageModifier = this.getBowAttributes().getBaseDamage() - BowUtils.defaultBaseDamage;
+        arrow.setBaseDamage(arrow.getBaseDamage() + damageModifier);
         if(this.getBowAttributes().isFlamingArrow()) arrow.setSecondsOnFire(100);
         if(this.getBowAttributes().isNoDamage()) arrow.setBaseDamage(0);
         ((ProjectileInterface)arrow).rangedjs$setHitBehavior(getHitBehavior());

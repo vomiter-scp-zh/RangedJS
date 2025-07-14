@@ -19,6 +19,10 @@ public class BowAttributes {
         return fullChargeTick;
     }
 
+    public double getBaseDamage() {
+        return baseDamage;
+    }
+
     public int getPower() {
         return power;
     }

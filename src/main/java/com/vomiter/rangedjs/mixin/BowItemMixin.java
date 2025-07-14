@@ -39,5 +39,4 @@ public abstract class BowItemMixin implements BowItemInterface {
         if(ctx.getResult().equals(UseContext.Result.DENY)) cir.setReturnValue(InteractionResultHolder.fail(item));
         else if(ctx.getResult().equals(UseContext.Result.ALLOW)) cir.setReturnValue(InteractionResultHolder.consume(item));
     }
-
 }

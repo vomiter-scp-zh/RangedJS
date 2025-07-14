@@ -1,3 +1,6 @@
+0.6.5b
+1. add hit block
+
 0.6.4.3a
 1. remove redundant subclasses
 2. add hitEntity
