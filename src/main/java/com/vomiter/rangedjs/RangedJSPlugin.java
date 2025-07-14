@@ -1,6 +1,6 @@
-package com.vomiter.rangedjs.util;
+package com.vomiter.rangedjs;
 
-import com.vomiter.rangedjs.item.bow.RjsBowItemBuilder;
+import com.vomiter.rangedjs.item.bow.RangedJSBowItemBuilder;
 
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.registry.RegistryInfo;
@@ -14,6 +14,6 @@ public class RangedJSPlugin extends KubeJSPlugin{
 
     @Override
     public void init() {
-        RegistryInfo.ITEM.addType("bow", RjsBowItemBuilder.class, i -> new RjsBowItemBuilder(i));
+        RegistryInfo.ITEM.addType("bow", RangedJSBowItemBuilder.class, i -> new RangedJSBowItemBuilder(i));
     }
 }

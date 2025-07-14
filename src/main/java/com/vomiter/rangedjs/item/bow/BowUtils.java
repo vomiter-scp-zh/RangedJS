@@ -16,7 +16,7 @@ public class BowUtils {
         return stack.getUseDuration() - entity.getUseItemRemainingTicks();
     }
 
-    public static int defaultFullChargeTicks = 20;
+    public static int defaultFullChargeTick = 20;
     public static double defaultBaseDamage = 2.00;
 
     static class BowPullingPropertyFunction implements ClampedItemPropertyFunction {

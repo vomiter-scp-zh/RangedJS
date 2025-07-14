@@ -1,1 +1,1 @@
-com.vomiter.rangedjs.util.RangedJSPlugin
+com.vomiter.rangedjs.RangedJSPlugin

@@ -4,7 +4,10 @@
   "package": "com.vomiter.rangedjs.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "AbstractArrowMixin"
+    "AbstractArrowMixin",
+    "BowAttributesOnReleaseMixin",
+    "BowItemMixin",
+    "ProjectileMixin"
   ],
   "client": [
     "AbstractClientPlayerMixin"

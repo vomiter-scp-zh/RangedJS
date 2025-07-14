@@ -1,7 +1,7 @@
 package com.vomiter.rangedjs.item.bow;
 
 import com.vomiter.rangedjs.RangedJS;
-import com.vomiter.rangedjs.item.callbacks.RjsBowUseContext;
+import com.vomiter.rangedjs.item.callbacks.RangedJSBowUseContext;
 import com.vomiter.rangedjs.projectile.arrow.HitBehavior;
 import dev.latvian.mods.kubejs.typings.Info;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -18,11 +18,11 @@ import java.util.function.Consumer;
 
 import org.apache.logging.log4j.LogManager;
 
-public class RjsBowItemBuilder extends ItemBuilder {
-    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(RjsBowItemBuilder.class);
+public class RangedJSBowItemBuilder extends ItemBuilder {
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(RangedJSBowItemBuilder.class);
     transient BuilderHelper builderHelper = new BuilderHelper();
 
-    public RjsBowItemBuilder(ResourceLocation i) {
+    public RangedJSBowItemBuilder(ResourceLocation i) {
         super(i);
         log.debug("RangedJS register a bow:{}", i.toString());
     }
@@ -31,9 +31,9 @@ public class RjsBowItemBuilder extends ItemBuilder {
     public static class BuilderHelper {
         protected final BowAttributes bowAttributes = new BowAttributes();
         protected final HitBehavior hitBehavior = new HitBehavior();
-        protected List<Consumer<RjsBowUseContext>> useCallbacks = new ArrayList<>();
+        public Consumer<RangedJSBowUseContext> useCallback = (t)->{};
 
-        protected BuilderHelper(){}
+        public BuilderHelper(){}
 
         @Info("To modify some default attributes of the bow. E.g. ticks to full charge, base arrow damage, native enchantment-like capabilities.")
         @SuppressWarnings("unused")
@@ -51,25 +51,23 @@ public class RjsBowItemBuilder extends ItemBuilder {
 
         @Info("To add stuffs that will happen when the shot arrows hit entity/block")
         @SuppressWarnings("unused")
-        public BuilderHelper pull(Consumer<RjsBowUseContext> ctx){
-            useCallbacks.add(ctx);
+        public BuilderHelper pull(Consumer<RangedJSBowUseContext> c){
+            useCallback = c;
             return this;
         }
-
-
     }
 
     @Info("To customize the bow.")
     @SuppressWarnings("unused")
-    public RjsBowItemBuilder bow(Consumer<BuilderHelper> b){
+    public RangedJSBowItemBuilder bow(Consumer<BuilderHelper> b){
         b.accept(builderHelper);
         return this;
     }
 
     @Override
     public Item createObject() {
-        final int fullChargeTicks = builderHelper.bowAttributes.fullChargeTicks;
-        BowItem newBow = new RjsBowItem(createItemProperties(), builderHelper);
+        final int fullChargeTicks = builderHelper.bowAttributes.fullChargeTick;
+        BowItem newBow = new RangedJSBowItem(createItemProperties(), builderHelper);
 
         RangedJS.customizedBows.add(newBow);
         ItemProperties.register(newBow, BowUtils.PULL, BowUtils.PULL_PROVIDER(fullChargeTicks));

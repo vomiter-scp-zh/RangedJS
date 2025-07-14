@@ -9,11 +9,43 @@ public class BowAttributes {
     protected int knockBack = 0;
     protected int power = 0;
 
-    protected int fullChargeTicks = BowUtils.defaultFullChargeTicks;
+    protected int fullChargeTick = BowUtils.defaultFullChargeTick;
     protected double baseDamage = BowUtils.defaultBaseDamage;
     protected float arrowSpeedScale = 1;
 
     protected boolean noDamage = false;
+
+    public int getFullChargeTick() {
+        return fullChargeTick;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public int getKnockBack() {
+        return knockBack;
+    }
+
+    public float getArrowSpeedScale() {
+        return arrowSpeedScale;
+    }
+
+    public boolean isFlamingArrow() {
+        return flamingArrow;
+    }
+
+    public boolean isInfinity() {
+        return infinity;
+    }
+
+    public boolean isSpecialInfinity() {
+        return specialInfinity;
+    }
+
+    public boolean isNoDamage() {
+        return noDamage;
+    }
 
     public BowAttributes(){}
 
@@ -40,10 +72,19 @@ public class BowAttributes {
 
     @Info("Modify the tick counts taken to fully charge this bow. The default value is 20 ticks (1 second).")
     @SuppressWarnings("unused")
-    public BowAttributes fullChargeTicks(int t){
-        this.fullChargeTicks = t;
+    public BowAttributes fullChargeTick(int t){
+        this.fullChargeTick = t;
         return this;
     }
+
+    @Info("This is a typo. Please use .fullChargeTick in newer version. This method will be deprecated one day.")
+    @SuppressWarnings("unused")
+    public BowAttributes fullChargeTicks(int t){
+        this.fullChargeTick = t;
+        return this;
+    }
+
+
 
     @SuppressWarnings("unused")
     public BowAttributes specialInfinity(){

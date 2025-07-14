@@ -1,8 +1,8 @@
 package com.vomiter.rangedjs.item.bow;
 
-import com.vomiter.rangedjs.item.callbacks.RjsBowUseContext;
+import com.vomiter.rangedjs.item.callbacks.RangedJSBowUseContext;
 import com.vomiter.rangedjs.item.callbacks.UseContext;
-import com.vomiter.rangedjs.projectile.arrow.ArrowInterface;
+import com.vomiter.rangedjs.projectile.arrow.ProjectileInterface;
 import com.vomiter.rangedjs.projectile.arrow.HitBehavior;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -12,36 +12,36 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.ArrowItem;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 
-public class RjsBowItem extends BowItem {
-    public final RjsBowItemBuilder.BuilderHelper builderHelper;
+public class RangedJSBowItem extends BowItem implements BowItemInterface {
+    public final RangedJSBowItemBuilder.BuilderHelper builderHelper;
     
     public final BowAttributes bowAttributes;
     public final HitBehavior hitBehavior;
-    private final List<Consumer<RjsBowUseContext>> useCallbacks;
 
-    public RjsBowItem(Properties itemProperties, RjsBowItemBuilder.BuilderHelper builderHelper) {
+    public RangedJSBowItem(Properties itemProperties, RangedJSBowItemBuilder.BuilderHelper builderHelper) {
         super(itemProperties);
         this.builderHelper = builderHelper;
         bowAttributes =  builderHelper.bowAttributes;
         hitBehavior = builderHelper.hitBehavior;
-        useCallbacks = builderHelper.useCallbacks;
     }
 
 
-    @Override
-    public void releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int remainTick) {if (entity instanceof Player player) {
+    //@Override
+    public void legacy$releaseUsing(@NotNull ItemStack stack, @NotNull Level level, @NotNull LivingEntity entity, int remainTick) {if (entity instanceof Player player) {
         boolean isInfinity =  bowAttributes.infinity || stack.getEnchantmentLevel(Enchantments.INFINITY_ARROWS) > 0;
         boolean canAlwaysShoot =
                 player.getAbilities().instabuild
@@ -82,9 +82,8 @@ public class RjsBowItem extends BowItem {
 
             abstractarrow = addEnchantEffectsToArrow(stack, abstractarrow);
             if( bowAttributes.noDamage) abstractarrow.setBaseDamage(0);
+            ((ProjectileInterface)abstractarrow).rangedjs$setHitConsumerContainer(hitBehavior.hitConsumers);
             level.addFreshEntity(abstractarrow);
-
-            ((ArrowInterface)abstractarrow).rangedjs$setHitConsumerContainer(hitBehavior.hitConsumers);
         }
 
         level.playSound(
@@ -109,34 +108,12 @@ public class RjsBowItem extends BowItem {
     }}
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level  level, @NotNull Player player, @NotNull InteractionHand hand) {
-        RjsBowUseContext ctx = new RjsBowUseContext(level, player, hand);
-        boolean denied = useCallbacks.stream().anyMatch(useCallback -> {
-            useCallback.accept(ctx);
-            return ctx.getResult().equals(UseContext.Result.DENY);
-        });
-
-        ItemStack itemstack = player.getItemInHand(hand);
-        if(denied) return InteractionResultHolder.fail(itemstack);
-
-        boolean flag = !player.getProjectile(itemstack).isEmpty();
-
-        InteractionResultHolder<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack,  level, player, hand, flag);
-        if (ret != null) return ret;
-
-        if (!player.getAbilities().instabuild && !flag) {
-            return InteractionResultHolder.fail(itemstack);
-        } else {
-            player.startUsingItem(hand);
-            return InteractionResultHolder.consume(itemstack);
-        }
+    public RangedJSBowItemBuilder.BuilderHelper rjs$getBowProperties() {
+        return this.builderHelper;
     }
 
-
-    public int getFullChargeTicks(){return  bowAttributes.fullChargeTicks;}
-
     public float getPowerForPullTick(int pullTick) {
-        float f = (float)pullTick /  bowAttributes.fullChargeTicks;
+        float f = (float)pullTick /  bowAttributes.fullChargeTick;
         f = (f * f + f * 2.0F) / 3.0F;
         if (f > 1.0F) {
             f = 1.0F;
@@ -145,7 +122,7 @@ public class RjsBowItem extends BowItem {
         return f;
     }
 
-    public AbstractArrow addEnchantEffectsToArrow(ItemStack stack, AbstractArrow arrow){
+    public AbstractArrow addEnchantEffectsToArrow(@NotNull ItemStack stack, AbstractArrow arrow){
         int enchantPower =  bowAttributes.power + stack.getEnchantmentLevel(Enchantments.POWER_ARROWS);
         if (enchantPower > 0) {
             arrow.setBaseDamage(arrow.getBaseDamage() + (double) enchantPower * 0.5D + 0.5D);
