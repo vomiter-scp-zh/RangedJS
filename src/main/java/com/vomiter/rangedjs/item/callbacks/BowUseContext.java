@@ -5,12 +5,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-public class RangedJSBowUseContext extends UseContext {
+public class BowUseContext extends UseContext {
     private final ItemStack bow;
     private final int pullTick;
     private final ItemStack ammo;
 
-    public RangedJSBowUseContext(Level level, Player player, InteractionHand hand) {
+    public BowUseContext(Level level, Player player, InteractionHand hand) {
         super(level, player, hand);
         bow = this.getPlayer().getUseItem();
         pullTick =  bow.getUseDuration() - this.getPlayer().getUseItemRemainingTicks();

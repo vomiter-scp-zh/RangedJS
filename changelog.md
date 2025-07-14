@@ -1,3 +1,7 @@
+0.6.4.3a
+1. remove redundant subclasses
+2. add hitEntity
+
 0.6.4.2a
 1. put all `@ReMapForJS` into mixin package
 2. rename `fullChargeTicks` to `fullChargeTick`
