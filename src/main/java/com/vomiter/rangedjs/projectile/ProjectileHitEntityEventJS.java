@@ -23,4 +23,9 @@ public class ProjectileHitEntityEventJS extends ProjectileHitEventJS {
     public void cancel(){
         this.setEventResult(Result.DENY);
     }
+
+    public void setDamage(float damage) {}
+
+    public float getDamage() {return 0;}
+
 }

@@ -9,10 +9,12 @@ public class ArrowHitEntityEventJS extends ProjectileHitEntityEventJS {
         super(hitResult, projectile);
     }
 
+    @Override
     public void setDamage(float damage) {
         this.damage = damage;
     }
 
+    @Override
     public float getDamage() {
         return damage;
     }
