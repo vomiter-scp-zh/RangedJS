@@ -11,7 +11,7 @@ public class BowAttributes {
 
     protected int fullChargeTick = BowUtils.defaultFullChargeTick;
     protected double baseDamage = BowUtils.defaultBaseDamage;
-    protected float arrowSpeedScale = 1;
+    protected float arrowSpeedScale = BowUtils.defaultSpeedScale;
 
     protected boolean noDamage = false;
 
@@ -87,8 +87,6 @@ public class BowAttributes {
         this.fullChargeTick = t;
         return this;
     }
-
-
 
     @SuppressWarnings("unused")
     public BowAttributes specialInfinity(){

@@ -7,24 +7,19 @@ import net.minecraft.world.level.Level;
 
 public class BowUseContext extends UseContext {
     private final ItemStack bow;
-    private final int pullTick;
     private final ItemStack ammo;
 
     public BowUseContext(Level level, Player player, InteractionHand hand) {
         super(level, player, hand);
         bow = this.getPlayer().getUseItem();
-        pullTick =  bow.getUseDuration() - this.getPlayer().getUseItemRemainingTicks();
         ammo = this.getPlayer().getProjectile(bow);
     }
 
+    @SuppressWarnings("unused")
     public ItemStack getBow() {
         return bow;
     }
-
-    public int getPullTick() {
-        return pullTick;
-    }
-
+    @SuppressWarnings("unused")
     public ItemStack getAmmo() {
         return ammo;
     }

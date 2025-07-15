@@ -4,7 +4,7 @@ import com.vomiter.rangedjs.item.bow.BowItemInterface;
 import com.vomiter.rangedjs.item.bow.BowProperties;
 import com.vomiter.rangedjs.item.callbacks.BowUseContext;
 import com.vomiter.rangedjs.item.callbacks.UseContext;
-import dev.latvian.mods.rhino.util.RemapForJS;
+import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -22,11 +22,12 @@ public abstract class BowItemMixin implements BowItemInterface {
     @Unique
     private BowProperties rangedjs$bowProperties = new BowProperties();
 
+    @HideFromJS
     @Override
     @Unique
     public BowProperties rjs$getBowProperties(){return this.rangedjs$bowProperties;}
 
-    @RemapForJS("setBowProperties")
+    @HideFromJS
     @Override
     public void rjs$setBowProperties(BowProperties bowProperties){this.rangedjs$bowProperties = bowProperties;}
 
@@ -37,6 +38,9 @@ public abstract class BowItemMixin implements BowItemInterface {
         ItemStack item = player.getItemInHand(hand);
         this.getUseCallback().accept(ctx);
         if(ctx.getResult().equals(UseContext.Result.DENY)) cir.setReturnValue(InteractionResultHolder.fail(item));
-        else if(ctx.getResult().equals(UseContext.Result.ALLOW)) cir.setReturnValue(InteractionResultHolder.consume(item));
+        else if(ctx.getResult().equals(UseContext.Result.ALLOW)) {
+            player.startUsingItem(hand);
+            cir.setReturnValue(InteractionResultHolder.consume(item));
+        }
     }
 }

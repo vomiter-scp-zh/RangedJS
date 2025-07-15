@@ -30,12 +30,11 @@ public class RangedJSBowItemBuilder extends ItemBuilder {
 
     @Override
     public Item createObject() {
-        final int fullChargeTicks = bowProperties.bowAttributes.fullChargeTick;
         BowItem newBow = new BowItem(createItemProperties());
         ((BowItemInterface)newBow).rjs$setBowProperties(bowProperties);
 
         RangedJS.customizedBows.add(newBow);
-        ItemProperties.register(newBow, BowUtils.PULL, BowUtils.PULL_PROVIDER(fullChargeTicks));
+        ItemProperties.register(newBow, BowUtils.PULL, BowUtils.PULL_PROVIDER);
         ItemProperties.register(newBow, BowUtils.PULLING, BowUtils.PULLING_PROVIDER);
         if(anim == null){
             anim = UseAnim.BOW;

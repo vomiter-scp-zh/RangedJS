@@ -1,3 +1,10 @@
+0.7.0
+1. add functionality of modifying existing bows
+2. add speed scale
+3. hide set/get bowProperties
+4. fix pull
+5. fix infinity
+
 0.6.5b
 1. add hit block
 
