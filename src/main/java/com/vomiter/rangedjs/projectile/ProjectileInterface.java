@@ -1,12 +1,12 @@
 package com.vomiter.rangedjs.projectile;
 
-import dev.latvian.mods.rhino.util.RemapForJS;
+import dev.latvian.mods.rhino.util.HideFromJS;
 
 public interface ProjectileInterface {
 
-    @RemapForJS("getHitBehavior")
+    @HideFromJS
     HitBehavior rangedjs$getHitBehavior();
 
-    @RemapForJS("setHitBehavior")
+    @HideFromJS
     void rangedjs$setHitBehavior(HitBehavior h);
 }

@@ -2,16 +2,27 @@ package com.vomiter.rangedjs.item.bow;
 
 import com.vomiter.rangedjs.item.callbacks.BowUseContext;
 import com.vomiter.rangedjs.projectile.HitBehavior;
+import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.BowItem;
 
 import java.util.function.Consumer;
 
 public interface BowItemInterface {
+
+    @HideFromJS
     default void rjs$setBowProperties(BowProperties b){}
+
+    @HideFromJS
     default BowProperties rjs$getBowProperties(){return new BowProperties();}
+
+    @HideFromJS
     default Consumer<BowUseContext> getUseCallback(){return rjs$getBowProperties().useCallback;}
+
+    @HideFromJS
     default BowAttributes getBowAttributes(){return rjs$getBowProperties().bowAttributes;}
+
+    @HideFromJS
     default HitBehavior getHitBehavior(){return rjs$getBowProperties().hitBehavior;}
 
     @SuppressWarnings("unused")

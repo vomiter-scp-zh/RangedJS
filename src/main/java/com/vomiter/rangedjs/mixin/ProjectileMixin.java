@@ -1,7 +1,6 @@
 package com.vomiter.rangedjs.mixin;
 
 import com.vomiter.rangedjs.projectile.*;
-import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -18,13 +17,11 @@ public class ProjectileMixin implements ProjectileInterface {
     @Unique
     private HitBehavior rangedjs$hitBehavior;
 
-    @RemapForJS("getHitConsumerContainer")
     @Override
     public HitBehavior rangedjs$getHitBehavior(){
         return Optional.ofNullable(this.rangedjs$hitBehavior).orElse(new HitBehavior());
     }
 
-    @RemapForJS("setHitConsumerContainer")
     @Override
     public void rangedjs$setHitBehavior(HitBehavior h){
         this.rangedjs$hitBehavior = h;
