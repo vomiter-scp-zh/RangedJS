@@ -19,11 +19,13 @@ import java.util.Optional;
 @Mixin(value = AbstractArrow.class)
 public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInterface {
 
-    @Inject(method = "onHitEntity", at = @At("HEAD"), cancellable = true)
-    private void doOnHitEntity(EntityHitResult hitResult, CallbackInfo ci){
+    @Inject(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getType()Lnet/minecraft/world/entity/EntityType;"), cancellable = true)
+    private void doOnHitEntity(EntityHitResult hitResult, CallbackInfo ci, @Local int damage){
         ArrowHitEntityEventJS eventJS = new ArrowHitEntityEventJS(hitResult, (Projectile) (Object) this);
+        eventJS.setDamage(damage);
         HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
         Optional.ofNullable(hitBehavior.getHitEntity()).orElse(t->{}).accept(eventJS);
+        damage = Math.round(eventJS.getDamage());
         if(eventJS.getEventResult().equals(ArrowHitEntityEventJS.Result.DENY)){
             ci.cancel();
         }

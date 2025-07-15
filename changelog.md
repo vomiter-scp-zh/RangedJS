@@ -1,4 +1,6 @@
-0.7.0
+1. add setDamage/getDamage
+
+0.7.0b
 1. add functionality of modifying existing bows
 2. add speed scale
 3. hide set/get bowProperties

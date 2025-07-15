@@ -13,6 +13,9 @@ import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//TODO add setDamage
+//TODO add during pull
 //TODO compat with archery expansion
 
 //TODO beforeShoot/afterShoot
