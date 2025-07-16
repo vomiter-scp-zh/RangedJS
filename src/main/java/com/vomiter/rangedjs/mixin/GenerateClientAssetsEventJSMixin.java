@@ -13,8 +13,8 @@ import java.util.Map;
 @Mixin(value = GenerateClientAssetsEventJS.class)
 public abstract class GenerateClientAssetsEventJSMixin implements GenerateClientAssetsEventJSInterface {
 
+    @Unique
     GenerateClientAssetsEventJS rjs$this = (GenerateClientAssetsEventJS)(Object)this;
-
 
     @Unique
     @Override
