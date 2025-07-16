@@ -10,7 +10,8 @@
     "ProjectileMixin"
   ],
   "client": [
-    "AbstractClientPlayerMixin"
+    "AbstractClientPlayerMixin",
+    "GenerateClientAssetsEventJSMixin"
   ],
   "injectors": {
     "defaultRequire": 1
