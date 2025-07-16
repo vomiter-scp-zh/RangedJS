@@ -6,10 +6,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@SuppressWarnings("unused")
 public class ProjectileHitBlockEventJS extends ProjectileHitEventJS{
-    public ProjectileHitBlockEventJS(HitResult hitResult, Projectile projectile) {
-        super(hitResult, projectile);
+    public ProjectileHitBlockEventJS(HitResult hitResult, Projectile projectile, CallbackInfo ci) {
+        super(hitResult, projectile, ci);
     }
 
     public BlockContainerJS getBlock(){
@@ -29,5 +31,6 @@ public class ProjectileHitBlockEventJS extends ProjectileHitEventJS{
             """)
     public void cancel(){
         this.setEventResult(Result.DENY);
+        this.ci.cancel();
     }
 }

@@ -5,8 +5,9 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AbstractArrowMixin",
-    "BowAttributesOnReleaseMixin",
+    "BowOnReleaseMixin",
     "BowItemMixin",
+    "LivingEntityMixin",
     "ProjectileMixin"
   ],
   "client": [

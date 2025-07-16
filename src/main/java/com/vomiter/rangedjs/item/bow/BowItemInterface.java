@@ -1,6 +1,7 @@
 package com.vomiter.rangedjs.item.bow;
 
-import com.vomiter.rangedjs.item.callbacks.BowUseContext;
+import com.vomiter.rangedjs.item.context.BowReleaseContext;
+import com.vomiter.rangedjs.item.context.BowUseContext;
 import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -18,6 +19,12 @@ public interface BowItemInterface {
 
     @HideFromJS
     default Consumer<BowUseContext> getUseCallback(){return rjs$getBowProperties().useCallback;}
+
+    @HideFromJS
+    default Consumer<BowUseContext> getUseTickCallback(){return rjs$getBowProperties().useTickCallback;}
+
+    @HideFromJS
+    default Consumer<BowReleaseContext> getReleaseCallback(){return rjs$getBowProperties().releaseCallback;}
 
     @HideFromJS
     default BowAttributes getBowAttributes(){return rjs$getBowProperties().bowAttributes;}

@@ -29,29 +29,15 @@ public class ProjectileMixin implements ProjectileInterface {
 
     @Inject(method = "onHitEntity", at = @At("HEAD"), cancellable = true)
     private void doOnHitEntity(EntityHitResult hitResult, CallbackInfo ci){
-        ProjectileHitEntityEventJS eventJS = new ProjectileHitEntityEventJS(hitResult, (Projectile) (Object) this);
+        ProjectileHitEntityEventJS eventJS = new ProjectileHitEntityEventJS(hitResult, (Projectile) (Object) this, ci);
         HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
         Optional.ofNullable(hitBehavior.getHitEntity()).orElse(t->{}).accept(eventJS);
-        if(eventJS.getEventResult().equals(ProjectileHitEventJS.Result.DENY)){
-            ci.cancel();
-        }
-        else{
-            //ProjectileHitEntityEventJS.eventResultMap.put(hitResult.hashCode(),eventJS.getEventResult().equals(ProjectileHitEntityEventJS.Result.ALLOW)            );
-        }
     }
 
     @Inject(method = "onHitBlock", at = @At("HEAD"), cancellable = true)
     private void doOnHitBlock(BlockHitResult hitResult, CallbackInfo ci){
-        ProjectileHitBlockEventJS eventJS = new ProjectileHitBlockEventJS(hitResult, (Projectile) (Object) this);
+        ProjectileHitBlockEventJS eventJS = new ProjectileHitBlockEventJS(hitResult, (Projectile) (Object) this, ci);
         HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
         Optional.ofNullable(hitBehavior.getHitBlock()).orElse(t->{}).accept(eventJS);
-        if(eventJS.getEventResult().equals(ProjectileHitEventJS.Result.DENY)){
-            ci.cancel();
-        }
     }
-
-
-
-
-
 }

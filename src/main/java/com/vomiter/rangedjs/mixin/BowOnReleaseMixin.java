@@ -2,8 +2,10 @@ package com.vomiter.rangedjs.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.vomiter.rangedjs.item.bow.BowItemInterface;
 import com.vomiter.rangedjs.item.bow.BowUtils;
+import com.vomiter.rangedjs.item.context.BowReleaseContext;
 import com.vomiter.rangedjs.projectile.ProjectileInterface;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,15 +14,14 @@ import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = BowItem.class)
-public abstract class BowAttributesOnReleaseMixin implements BowItemInterface {
+public abstract class BowOnReleaseMixin implements BowItemInterface {
     @SuppressWarnings("unused")
     @Unique
     BowItem rjs$bowItem =(BowItem)(Object)this;
@@ -105,18 +106,26 @@ public abstract class BowAttributesOnReleaseMixin implements BowItemInterface {
         return i + this.getBowAttributes().getKnockBack();
     }
 
-    //TODO refactor this with mixin extra someday.
-    @ModifyVariable(
+    @Inject(
             method = "releaseUsing",
-            at = @At("STORE"),
-            ordinal = 0
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/Level;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"
+            )
     )
-    private AbstractArrow modifyArrowFinal(AbstractArrow arrow){
+    private void modifyArrowFinal(ItemStack bow, Level level, LivingEntity player, int remainTick, CallbackInfo ci,
+                                  @Local LocalRef<AbstractArrow> arrowRef
+    ){
         double damageModifier = this.getBowAttributes().getBaseDamage() - BowUtils.defaultBaseDamage;
+        AbstractArrow arrow = arrowRef.get();
         arrow.setBaseDamage(arrow.getBaseDamage() + damageModifier);
         if(this.getBowAttributes().isFlamingArrow()) arrow.setSecondsOnFire(100);
         if(this.getBowAttributes().isNoDamage()) arrow.setBaseDamage(0);
         ((ProjectileInterface)arrow).rangedjs$setHitBehavior(getHitBehavior());
-        return arrow;
+        arrowRef.set(arrow);
+        BowReleaseContext bowReleaseContext = new BowReleaseContext(bow, level, player, remainTick, ci);
+        bowReleaseContext.setArrow(arrow);
+        this.getReleaseCallback().accept(bowReleaseContext);
+        arrowRef.set(bowReleaseContext.getArrow());
     }
 }

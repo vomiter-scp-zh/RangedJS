@@ -23,17 +23,12 @@ public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInte
 
     @Inject(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getType()Lnet/minecraft/world/entity/EntityType;"), cancellable = true)
     private void doOnHitEntity(EntityHitResult hitResult, CallbackInfo ci, @Local LocalIntRef damage){
-        ArrowHitEntityEventJS eventJS = new ArrowHitEntityEventJS(hitResult, (Projectile) (Object) this);
+        ArrowHitEntityEventJS eventJS = new ArrowHitEntityEventJS(hitResult, (Projectile) (Object) this, ci);
         eventJS.setDamage(damage.get());
         HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
         Optional.ofNullable(hitBehavior.getHitEntity()).orElse(t->{}).accept(eventJS);
         damage.set(Math.round(eventJS.getDamage()));
-        if(eventJS.getEventResult().equals(ArrowHitEntityEventJS.Result.DENY)){
-            ci.cancel();
-        }
     }
-
-
 
     @Unique
     @Inject(method="doPostHurtEffects", at=@At("HEAD"))
@@ -42,6 +37,5 @@ public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInte
         if(hitBehavior == null) return;
         Optional.ofNullable(hitBehavior.getPostHurtEffect()).orElse(t -> {}).accept(livingEntity);
     }
-
 
 }

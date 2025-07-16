@@ -4,10 +4,13 @@ import dev.latvian.mods.kubejs.typings.Info;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class ProjectileHitEntityEventJS extends ProjectileHitEventJS {
-    public ProjectileHitEntityEventJS(EntityHitResult hitResult, Projectile projectile){
-        super(hitResult, projectile);
+
+    public ProjectileHitEntityEventJS(HitResult hitResult, Projectile projectile, CallbackInfo ci) {
+        super(hitResult, projectile, ci);
     }
 
     public Entity getEntity(){
@@ -20,6 +23,7 @@ public class ProjectileHitEntityEventJS extends ProjectileHitEventJS {
             """)
     public void cancel(){
         this.setEventResult(Result.DENY);
+        this.ci.cancel();
     }
 
     public void setDamage(float damage) {}

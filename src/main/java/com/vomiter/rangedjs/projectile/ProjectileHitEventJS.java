@@ -9,17 +9,21 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@SuppressWarnings("unused")
 public class ProjectileHitEventJS {
     public static Int2BooleanMap eventResultMap = new Int2BooleanOpenHashMap();
     protected final HitResult hitResult;
     protected final Projectile projectile;
     public enum Result {DEFAULT, ALLOW, DENY}
     protected Result eventResult = Result.DEFAULT;
+    protected CallbackInfo ci;
 
-    public ProjectileHitEventJS(HitResult hitResult, Projectile projectile){
+    public ProjectileHitEventJS(HitResult hitResult, Projectile projectile, CallbackInfo ci){
         this.hitResult = hitResult;
         this.projectile = projectile;
+        this.ci = ci;
     }
 
     public Vec3 getPos(){
@@ -29,6 +33,7 @@ public class ProjectileHitEventJS {
     public Level getLevel(){
         return this.projectile.level();
     }
+
 
     public MinecraftServer getServer(){
         return this.getLevel().getServer();
@@ -40,6 +45,7 @@ public class ProjectileHitEventJS {
 
     public void cancel(){
         this.setEventResult(Result.DENY);
+        this.ci.cancel();
     }
 
     @HideFromJS
