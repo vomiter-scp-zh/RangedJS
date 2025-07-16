@@ -51,7 +51,7 @@ public class EasyBowModel {
         map.put("textures", Map.of("layer0", resolvedRL));
         map.put("overrides", overrides);
         JsonElement json = gson.toJsonTree(map);
-        LOGGER.info(json);
+        //LOGGER.info(json);
         return json;
     }
 

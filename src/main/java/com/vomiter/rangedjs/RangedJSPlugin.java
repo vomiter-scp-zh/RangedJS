@@ -10,10 +10,11 @@ import org.slf4j.Logger;
 
 
 public class RangedJSPlugin extends KubeJSPlugin{
+    @SuppressWarnings("unused")
     public static final Logger LOGGER = LogUtils.getLogger();
 
     @Override
     public void init() {
-        RegistryInfo.ITEM.addType("bow", BowItemBuilder.class, i -> new BowItemBuilder(i));
+        RegistryInfo.ITEM.addType("bow", BowItemBuilder.class, BowItemBuilder::new);
     }
 }

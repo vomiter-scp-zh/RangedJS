@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 
 import java.util.function.Consumer;
 
+@SuppressWarnings("unused")
 public class HitBehavior {
     protected Consumer<LivingEntity> postHurtEffect;
     protected Consumer<ProjectileHitEntityEventJS> hitEntity;
