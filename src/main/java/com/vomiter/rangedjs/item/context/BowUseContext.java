@@ -8,21 +8,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 public class BowUseContext extends UseContext {
     private final ItemStack bow;
-    private final ItemStack ammo;
+    private final ItemStack arrow;
 
 
     public BowUseContext(Level level, Player player, InteractionHand hand, CallbackInfo ci) {
         super(level, player, hand, ci);
-        bow = this.getPlayer().getUseItem();
-        ammo = this.getPlayer().getProjectile(bow);
+        bow = this.getPlayer().getItemInHand(hand);
+        arrow = this.getPlayer().getProjectile(bow);
     }
 
     @SuppressWarnings("unused")
     public ItemStack getBow() {
         return bow;
     }
+
+
     @SuppressWarnings("unused")
-    public ItemStack getAmmo() {
-        return ammo;
+    public ItemStack getArrow() {
+        return arrow;
     }
 }
