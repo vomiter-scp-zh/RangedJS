@@ -28,7 +28,6 @@ public abstract class BowItemMixin implements BowItemInterface {
     @Override
     public void rjs$setBowProperties(BowProperties bowProperties){this.rangedjs$bowProperties = bowProperties;}
 
-    //TODO refactor this with mixin extra someday.
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void beforePull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
         BowUseContext ctx = new BowUseContext(level, player, hand, cir);

@@ -7,6 +7,7 @@ import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+@SuppressWarnings("unused")
 public class UseContext {
     public enum Result {DEFAULT, DENY, ALLOW}
     private final Level level;
@@ -22,39 +23,46 @@ public class UseContext {
         this.ci = ci;
     }
 
-    @SuppressWarnings("unused")
     public void setResult(Result result) {
         this.result = result;
+        if(ci instanceof CallbackInfoReturnable){
+            var cir = ((CallbackInfoReturnable<InteractionResultHolder>) ci);
+            if(result == Result.ALLOW){
+                cir.setReturnValue(InteractionResultHolder.consume(player.getItemInHand(hand)));
+            }
+            else if(result == Result.DENY){
+                cir.setReturnValue(InteractionResultHolder.fail(player.getItemInHand(hand)));
+            }
+        }
     }
 
-    @SuppressWarnings("unused")
-    public void cancel(){
+    public void deny(){
         setResult(Result.DENY);
-        if(ci instanceof CallbackInfoReturnable){
-            ((CallbackInfoReturnable<InteractionResultHolder>) ci)
-                    .setReturnValue(InteractionResultHolder.fail(player.getItemInHand(hand)));
-        }
-        else{
+        if(!(ci instanceof CallbackInfoReturnable)){
             ci.cancel();
         }
     }
 
-    @SuppressWarnings("unused")
+    public void allow(){
+        setResult(Result.ALLOW);
+    }
+
+    public void cancel(){
+        deny();
+    }
+
     public Result getResult() {
         return result;
     }
 
-    @SuppressWarnings("unused")
     public Level getLevel() {
         return level;
     }
 
-    @SuppressWarnings("unused")
     public Player getPlayer() {
         return player;
     }
 
-    @SuppressWarnings("unused")
     public InteractionHand getHand() {
         return hand;
     }

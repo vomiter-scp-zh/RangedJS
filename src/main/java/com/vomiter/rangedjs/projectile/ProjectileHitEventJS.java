@@ -5,6 +5,7 @@ import dev.latvian.mods.rhino.util.HideFromJS;
 import it.unimi.dsi.fastutil.ints.Int2BooleanMap;
 import it.unimi.dsi.fastutil.ints.Int2BooleanOpenHashMap;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
@@ -61,6 +62,12 @@ public class ProjectileHitEventJS {
     @HideFromJS
     public Result getEventResult(){
         return this.eventResult;
+    }
+
+    public AbstractArrow getArrow(){
+        if(projectile instanceof AbstractArrow) return (AbstractArrow)projectile;
+        ci.cancel();
+        return null;
     }
 
 }

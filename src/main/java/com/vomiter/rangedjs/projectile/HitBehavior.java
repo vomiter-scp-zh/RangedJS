@@ -1,6 +1,7 @@
 package com.vomiter.rangedjs.projectile;
 
 import dev.latvian.mods.kubejs.typings.Info;
+import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -12,9 +13,16 @@ public class HitBehavior {
     protected Consumer<ProjectileHitBlockEventJS> hitBlock;
     protected Consumer<ProjectileHitEventJS> hit;
 
+    @HideFromJS
     public Consumer<LivingEntity> getPostHurtEffect() { return postHurtEffect; }
+
+    @HideFromJS
     public Consumer<ProjectileHitEntityEventJS> getHitEntity() { return hitEntity; }
+
+    @HideFromJS
     public Consumer<ProjectileHitBlockEventJS> getHitBlock() { return hitBlock;}
+
+    @HideFromJS
     public Consumer<ProjectileHitEventJS> getHit() { return hit; }
 
     @Info("This will only apply to the living entity hit by the arrow. Non-living entity will not trigger the effects.")

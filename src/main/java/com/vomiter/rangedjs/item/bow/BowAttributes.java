@@ -1,6 +1,7 @@
 package com.vomiter.rangedjs.item.bow;
 
 import dev.latvian.mods.kubejs.typings.Info;
+import dev.latvian.mods.rhino.util.HideFromJS;
 
 public class BowAttributes {
     protected boolean specialInfinity = false;
@@ -15,38 +16,47 @@ public class BowAttributes {
 
     protected boolean noDamage = false;
 
+    @HideFromJS
     public int getFullChargeTick() {
         return fullChargeTick;
     }
 
+    @HideFromJS
     public double getBaseDamage() {
         return baseDamage;
     }
 
+    @HideFromJS
     public int getPower() {
         return power;
     }
 
+    @HideFromJS
     public int getKnockBack() {
         return knockBack;
     }
 
+    @HideFromJS
     public float getArrowSpeedScale() {
         return arrowSpeedScale;
     }
 
+    @HideFromJS
     public boolean isFlamingArrow() {
         return flamingArrow;
     }
 
+    @HideFromJS
     public boolean isInfinity() {
         return infinity;
     }
 
+    @HideFromJS
     public boolean isSpecialInfinity() {
         return specialInfinity;
     }
 
+    @HideFromJS
     public boolean isNoDamage() {
         return noDamage;
     }

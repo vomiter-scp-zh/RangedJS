@@ -18,13 +18,16 @@ public interface BowItemInterface {
     default BowProperties rjs$getBowProperties(){return new BowProperties();}
 
     @HideFromJS
-    default Consumer<BowUseContext> getUseCallback(){return rjs$getBowProperties().useCallback;}
+    default BowUseBehavior getBowUseBehavior(){return rjs$getBowProperties().bowUseBehavior;}
 
     @HideFromJS
-    default Consumer<BowUseContext> getUseTickCallback(){return rjs$getBowProperties().useTickCallback;}
+    default Consumer<BowUseContext> getUseCallback(){return getBowUseBehavior().useCallback;}
 
     @HideFromJS
-    default Consumer<BowReleaseContext> getReleaseCallback(){return rjs$getBowProperties().releaseCallback;}
+    default Consumer<BowUseContext> getUseTickCallback(){return getBowUseBehavior().useTickCallback;}
+
+    @HideFromJS
+    default Consumer<BowReleaseContext> getReleaseCallback(){return getBowUseBehavior().releaseCallback;}
 
     @HideFromJS
     default BowAttributes getBowAttributes(){return rjs$getBowProperties().bowAttributes;}

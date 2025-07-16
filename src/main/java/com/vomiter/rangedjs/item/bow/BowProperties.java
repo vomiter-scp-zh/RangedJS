@@ -1,7 +1,5 @@
 package com.vomiter.rangedjs.item.bow;
 
-import com.vomiter.rangedjs.item.context.BowReleaseContext;
-import com.vomiter.rangedjs.item.context.BowUseContext;
 import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.kubejs.typings.Info;
 
@@ -10,9 +8,7 @@ import java.util.function.Consumer;
 public class BowProperties {
     protected final BowAttributes bowAttributes = new BowAttributes();
     protected final HitBehavior hitBehavior = new HitBehavior();
-    protected Consumer<BowReleaseContext> releaseCallback = (t) -> {};
-    protected Consumer<BowUseContext> useCallback = (t)->{};
-    protected Consumer<BowUseContext> useTickCallback = (t)->{};
+    protected BowUseBehavior bowUseBehavior = new BowUseBehavior();
 
     public BowProperties(){}
 
@@ -30,24 +26,10 @@ public class BowProperties {
         return this;
     }
 
-    @Info("The event fires when the player is gonna start to pull the bow. For the event during pulling process, use pullTick instead.")
+    @Info("To modify how the bow behaves when pull/release")
     @SuppressWarnings("unused")
-    public BowProperties pull(Consumer<BowUseContext> c){
-        useCallback = c;
-        return this;
-    }
-
-    @Info("The event fires when the player is pulling the bow.")
-    @SuppressWarnings("unused")
-    public BowProperties pullTick(Consumer<BowUseContext> c){
-        useTickCallback = c;
-        return this;
-    }
-
-    @SuppressWarnings("unused")
-    @Info("The event fires when the player release the bow.")
-    public BowProperties release(Consumer<BowReleaseContext> c){
-        releaseCallback = c;
+    public BowProperties onUse(Consumer<BowUseBehavior> b){
+        b.accept(bowUseBehavior);
         return this;
     }
 }

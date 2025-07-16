@@ -12,18 +12,18 @@ import org.apache.logging.log4j.LogManager;
 
 import java.util.function.Consumer;
 
-public class RangedJSBowItemBuilder extends ItemBuilder {
-    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(RangedJSBowItemBuilder.class);
+public class BowItemBuilder extends ItemBuilder {
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(BowItemBuilder.class);
     transient BowProperties bowProperties = new BowProperties();
 
-    public RangedJSBowItemBuilder(ResourceLocation i) {
+    public BowItemBuilder(ResourceLocation i) {
         super(i);
         log.debug("RangedJS register a bow:{}", i.toString());
     }
 
     @Info("To customize the bow.")
     @SuppressWarnings("unused")
-    public RangedJSBowItemBuilder bow(Consumer<BowProperties> b){
+    public BowItemBuilder bow(Consumer<BowProperties> b){
         b.accept(bowProperties);
         return this;
     }

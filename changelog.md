@@ -1,7 +1,9 @@
 1. add setDamage/getDamage
 2. add easy bow model
 3. add pull tick
-4. add release  <- for test
+4. add release 
+5. add get arrow in projectile hit
+6. add onUse and hide some method
 
 0.7.0b
 1. add functionality of modifying existing bows
