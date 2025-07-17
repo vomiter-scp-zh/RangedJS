@@ -2,6 +2,7 @@ A KubeJS addon for pack dev to easily create custom bows.
 [Source code for fabric](https://github.com/vomiter-scp-zh/RangedJS-fabric)
 
 Download from CurseForge
+
 ![download link](https://cf.way2muchnoise.eu/title/1303357.svg)
 
 ```js
