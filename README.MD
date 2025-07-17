@@ -1,4 +1,5 @@
 A KubeJS addon for pack dev to easily create custom bows.
+[Source code for fabric](https://github.com/vomiter-scp-zh/RangedJS-fabric)
 
 ```js
 StartupEvents.registry("item", event => {
