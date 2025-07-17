@@ -11,7 +11,7 @@ StartupEvents.registry("item", event => {
 	.bow(bow => {
 		bow.modifyBow(attributes => {
 			attributes
-			.fullChargeTicks(40) //takes 40 ticks to full charge
+			.fullChargeTick(40) //takes 40 ticks to full charge
 			.flamingArrow() //shoot flaming arrows by default
 			.baseDamage(20) //base damage is set to 20 (the default is 2.0)
 		})
