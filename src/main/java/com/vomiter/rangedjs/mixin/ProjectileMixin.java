@@ -39,5 +39,6 @@ public class ProjectileMixin implements ProjectileInterface {
         ProjectileHitBlockEventJS eventJS = new ProjectileHitBlockEventJS(hitResult, (Projectile) (Object) this, ci);
         HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
         Optional.ofNullable(hitBehavior.getHitBlock()).orElse(t->{}).accept(eventJS);
+        if(eventJS.getEventResult() == ProjectileHitEventJS.Result.DENY) ci.cancel();
     }
 }

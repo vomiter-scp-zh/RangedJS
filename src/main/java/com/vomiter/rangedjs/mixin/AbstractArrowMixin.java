@@ -2,13 +2,12 @@ package com.vomiter.rangedjs.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
-import com.vomiter.rangedjs.projectile.ArrowHitEntityEventJS;
-import com.vomiter.rangedjs.projectile.HitBehavior;
-import com.vomiter.rangedjs.projectile.ProjectileInterface;
+import com.vomiter.rangedjs.projectile.*;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.entity.EntityAccess;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -29,6 +28,16 @@ public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInte
         Optional.ofNullable(hitBehavior.getHitEntity()).orElse(t->{}).accept(eventJS);
         damage.set(Math.round(eventJS.getDamage()));
     }
+
+    /*
+    @Inject(method = "onHitBlock", at = @At(value = "HEAD"), cancellable = true)
+    private void doOnHitBlock(BlockHitResult hitResult, CallbackInfo ci){
+        ArrowHitBlockEventJS eventJS = new ArrowHitBlockEventJS(hitResult, (Projectile) (Object) this, ci);
+        HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
+        Optional.ofNullable(hitBehavior.getHitBlock()).orElse(t->{}).accept(eventJS);
+        if(eventJS.getEventResult() == ProjectileHitEventJS.Result.DENY) ci.cancel();
+    }
+     */
 
     @Unique
     @Inject(method="doPostHurtEffects", at=@At("HEAD"))

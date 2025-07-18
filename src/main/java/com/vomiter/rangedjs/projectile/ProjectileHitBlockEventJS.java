@@ -4,6 +4,7 @@ import dev.latvian.mods.kubejs.level.BlockContainerJS;
 import dev.latvian.mods.kubejs.typings.Info;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -15,13 +16,8 @@ public class ProjectileHitBlockEventJS extends ProjectileHitEventJS{
     }
 
     public BlockContainerJS getBlock(){
-        Vec3 pos = getPos();
-        return new BlockContainerJS(getLevel(),
-                new BlockPos(
-                    (int)Math.floor(pos.x),
-                    (int)Math.floor(pos.y),
-                    (int)Math.floor(pos.z)
-                )
+        BlockPos pos = ((BlockHitResult)hitResult).getBlockPos();
+        return new BlockContainerJS(getLevel(), pos
         );
     }
 
