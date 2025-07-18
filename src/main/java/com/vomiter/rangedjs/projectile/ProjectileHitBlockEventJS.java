@@ -6,7 +6,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @SuppressWarnings("unused")
