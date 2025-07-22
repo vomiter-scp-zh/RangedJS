@@ -33,7 +33,7 @@ public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInte
     @Inject(method = "onHitBlock", at = @At(value = "HEAD"), cancellable = true)
     private void doOnHitBlock(BlockHitResult hitResult, CallbackInfo ci){
         ArrowHitBlockEventJS eventJS = new ArrowHitBlockEventJS(hitResult, (Projectile) (Object) this, ci);
-        HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
+        HitBehavior hitBehavior = this.rangedjs$rjs$getHitBehavior();
         Optional.ofNullable(hitBehavior.getHitBlock()).orElse(t->{}).accept(eventJS);
         if(eventJS.getEventResult() == ProjectileHitEventJS.Result.DENY) ci.cancel();
     }

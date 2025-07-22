@@ -4,8 +4,9 @@ import com.vomiter.rangedjs.item.context.BowReleaseContext;
 import com.vomiter.rangedjs.item.context.BowUseContext;
 import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.rhino.util.HideFromJS;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.world.item.BowItem;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 
 import java.util.function.Consumer;
 
@@ -85,7 +86,7 @@ public interface BowItemInterface {
         BowProperties properties = this.rjs$getBowProperties();
         consumer.accept(properties);
         this.rjs$setBowProperties(properties);
-        ItemProperties.register((BowItem)this, BowUtils.PULL, BowUtils.PULL_PROVIDER);
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> BowRenderRegister.register((BowItem)this));
         return this;
     }
 }

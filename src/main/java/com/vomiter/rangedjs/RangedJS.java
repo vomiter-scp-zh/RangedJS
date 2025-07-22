@@ -27,7 +27,7 @@ public class RangedJS
     // Define mod id in a common place for everything to reference
     public static final String MODID = "rangedjs";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public static List<Item> customizedBows = new ArrayList<>();
 

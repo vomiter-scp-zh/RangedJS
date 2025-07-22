@@ -3,11 +3,12 @@ package com.vomiter.rangedjs.item.bow;
 import com.vomiter.rangedjs.RangedJS;
 import dev.latvian.mods.kubejs.item.ItemBuilder;
 import dev.latvian.mods.kubejs.typings.Info;
-import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.UseAnim;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.function.Consumer;
@@ -32,10 +33,8 @@ public class BowItemBuilder extends ItemBuilder {
     public Item createObject() {
         BowItem newBow = new BowItem(createItemProperties());
         ((BowItemInterface)newBow).rjs$setBowProperties(bowProperties);
-
         RangedJS.customizedBows.add(newBow);
-        ItemProperties.register(newBow, BowUtils.PULL, BowUtils.PULL_PROVIDER);
-        ItemProperties.register(newBow, BowUtils.PULLING, BowUtils.PULLING_PROVIDER);
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> BowRenderRegister.register(newBow));
         if(anim == null){
             anim = UseAnim.BOW;
         }
