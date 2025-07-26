@@ -1,4 +1,4 @@
-package com.vomiter.rangedjs.projectile;
+package com.vomiter.rangedjs.projectile.hitevents;
 
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.HitResult;

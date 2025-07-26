@@ -2,6 +2,7 @@ package com.vomiter.rangedjs;
 
 import com.vomiter.rangedjs.item.bow.BowItemBuilder;
 
+import com.vomiter.rangedjs.item.crossbow.CrossbowItemBuilder;
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.registry.RegistryInfo;
 
@@ -16,5 +17,7 @@ public class RangedJSPlugin extends KubeJSPlugin{
     @Override
     public void init() {
         RegistryInfo.ITEM.addType("bow", BowItemBuilder.class, BowItemBuilder::new);
+        RegistryInfo.ITEM.addType("crossbow", CrossbowItemBuilder.class, CrossbowItemBuilder::new);
     }
+
 }

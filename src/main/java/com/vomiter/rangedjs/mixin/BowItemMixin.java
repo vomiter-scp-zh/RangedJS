@@ -1,5 +1,6 @@
 package com.vomiter.rangedjs.mixin;
 
+import com.vomiter.rangedjs.item.ArrowShootingProperties;
 import com.vomiter.rangedjs.item.bow.BowItemInterface;
 import com.vomiter.rangedjs.item.bow.BowProperties;
 import com.vomiter.rangedjs.item.context.BowUseContext;
@@ -19,20 +20,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = BowItem.class)
 public abstract class BowItemMixin implements BowItemInterface {
     @Unique
-    private BowProperties rangedjs$bowProperties = new BowProperties();
+    private BowProperties rjs$bowProperties = new BowProperties();
 
     @Override
     @Unique
-    public BowProperties rjs$getBowProperties(){return this.rangedjs$bowProperties;}
+    public BowProperties rjs$getBowProperties(){return this.rjs$bowProperties;}
 
     @Override
-    public void rjs$setBowProperties(BowProperties bowProperties){this.rangedjs$bowProperties = bowProperties;}
+    @Unique
+    public void rjs$setBowProperties(ArrowShootingProperties bowProperties){this.rjs$bowProperties = (BowProperties) bowProperties;}
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void beforePull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
         BowUseContext ctx = new BowUseContext(level, player, hand, cir);
         ItemStack item = player.getItemInHand(hand);
-        this.getUseCallback().accept(ctx);
+        this.rjs$getUseCallback().accept(ctx);
         if(ctx.getResult().equals(UseContext.Result.DENY)) cir.setReturnValue(InteractionResultHolder.fail(item));
         else if(ctx.getResult().equals(UseContext.Result.ALLOW)) {
             player.startUsingItem(hand);

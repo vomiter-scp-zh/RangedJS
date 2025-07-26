@@ -23,7 +23,7 @@ public class LivingEntityMixin {
         BowUseContext ctx = new BowUseContext(rjs$this.level(), (Player)rjs$this, rjs$this.getUsedItemHand(), ci);
         ItemStack itemStack = rjs$this.getUseItem();
         if(itemStack.getItem() instanceof BowItem){
-            ((BowItemInterface)itemStack.getItem()).getUseTickCallback().accept(ctx);
+            ((BowItemInterface)itemStack.getItem()).rjs$getUseTickCallback().accept(ctx);
         }
     }
 }

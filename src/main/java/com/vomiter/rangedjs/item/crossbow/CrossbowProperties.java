@@ -1,13 +1,17 @@
 package com.vomiter.rangedjs.item.crossbow;
 
+import com.vomiter.rangedjs.item.ArrowShootingProperties;
+import com.vomiter.rangedjs.item.Attributes;
+import com.vomiter.rangedjs.item.UseBehavior;
+import com.vomiter.rangedjs.projectile.ArrowHitBehavior;
 import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.kubejs.typings.Info;
 
 import java.util.function.Consumer;
 
-public class CrossbowProperties {
+public class CrossbowProperties implements ArrowShootingProperties {
     protected final CrossbowAttributes crossbowAttributes = new CrossbowAttributes();
-    protected final HitBehavior hitBehavior = new HitBehavior();
+    protected final ArrowHitBehavior arrowhitBehavior = new ArrowHitBehavior();
     protected CrossbowUseBehavior crossbowUseBehavior = new CrossbowUseBehavior();
 
     public CrossbowProperties(){}
@@ -22,7 +26,7 @@ public class CrossbowProperties {
     @Info("To add stuffs that will happen when the shot arrows hit entity/block")
     @SuppressWarnings("unused")
     public CrossbowProperties onArrowHit(Consumer<HitBehavior> b){
-        b.accept(hitBehavior);
+        b.accept(arrowhitBehavior);
         return this;
     }
 
@@ -31,5 +35,20 @@ public class CrossbowProperties {
     public CrossbowProperties onUse(Consumer<CrossbowUseBehavior> b){
         b.accept(crossbowUseBehavior);
         return this;
+    }
+
+    @Override
+    public UseBehavior getUseBehavior() {
+        return crossbowUseBehavior;
+    }
+
+    @Override
+    public Attributes getAttributes() {
+        return crossbowAttributes;
+    }
+
+    @Override
+    public HitBehavior getHitBehavior() {
+        return arrowhitBehavior;
     }
 }

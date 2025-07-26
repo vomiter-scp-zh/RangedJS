@@ -1,3 +1,7 @@
+0.7.3
+1.Refactored codes to make it easier to use other type of weapon
+
+0.7.0
 1. add setDamage/getDamage
 2. add easy bow model
 3. add pull tick

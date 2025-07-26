@@ -1,8 +1,6 @@
 package com.vomiter.rangedjs.item.bow;
 
-import com.vomiter.rangedjs.item.context.BowReleaseContext;
-import com.vomiter.rangedjs.item.context.BowUseContext;
-import com.vomiter.rangedjs.projectile.HitBehavior;
+import com.vomiter.rangedjs.item.ArrowShootingInterface;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.world.item.BowItem;
 import net.minecraftforge.api.distmarker.Dist;
@@ -10,76 +8,18 @@ import net.minecraftforge.fml.DistExecutor;
 
 import java.util.function.Consumer;
 
-public interface BowItemInterface {
+public interface BowItemInterface extends ArrowShootingInterface {
 
-    @HideFromJS
-    default void rjs$setBowProperties(BowProperties b){}
-
+    @Override
     @HideFromJS
     default BowProperties rjs$getBowProperties(){return new BowProperties();}
 
+    @Override
     @HideFromJS
-    default BowUseBehavior getBowUseBehavior(){return rjs$getBowProperties().bowUseBehavior;}
-
-    @HideFromJS
-    default Consumer<BowUseContext> getUseCallback(){return getBowUseBehavior().useCallback;}
+    default BowUseBehavior rjs$getUseBehavior(){return (BowUseBehavior)rjs$getBowProperties().getUseBehavior();}
 
     @HideFromJS
-    default Consumer<BowUseContext> getUseTickCallback(){return getBowUseBehavior().useTickCallback;}
-
-    @HideFromJS
-    default Consumer<BowReleaseContext> getReleaseCallback(){return getBowUseBehavior().releaseCallback;}
-
-    @HideFromJS
-    default BowAttributes getBowAttributes(){return rjs$getBowProperties().bowAttributes;}
-
-    @HideFromJS
-    default HitBehavior getHitBehavior(){return rjs$getBowProperties().hitBehavior;}
-
-    @SuppressWarnings("unused")
-    default int getFullChargeTick() {
-        return getBowAttributes().getFullChargeTick();
-    }
-
-    @SuppressWarnings("unused")
-    default double getBaseDamage() {
-        return getBowAttributes().getBaseDamage();
-    }
-
-    @SuppressWarnings("unused")
-    default int getPower() {
-        return getBowAttributes().getPower();
-    }
-
-    @SuppressWarnings("unused")
-    default int getKnockBack() {
-        return getBowAttributes().getKnockBack();
-    }
-
-    @SuppressWarnings("unused")
-    default float getArrowSpeedScale() {
-        return getBowAttributes().getArrowSpeedScale();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean isFlamingArrow() {
-        return getBowAttributes().isFlamingArrow();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean isInfinity() {
-        return getBowAttributes().isInfinity();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean isSpecialInfinity() {
-        return getBowAttributes().isSpecialInfinity();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean isNoDamage() {
-        return getBowAttributes().isNoDamage();
-    }
+    default BowAttributes rjs$getBowAttributes(){return rjs$getBowProperties().bowAttributes;}
 
     @SuppressWarnings("unused")
     default BowItemInterface bow(Consumer<BowProperties> consumer){

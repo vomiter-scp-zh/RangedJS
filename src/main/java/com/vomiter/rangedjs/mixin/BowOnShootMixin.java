@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(value = BowItem.class)
-public abstract class BowOnReleaseMixin implements BowItemInterface {
+public abstract class BowOnShootMixin implements BowItemInterface {
     @SuppressWarnings("unused")
     @Unique
     BowItem rjs$bowItem =(BowItem)(Object)this;
@@ -38,7 +38,7 @@ public abstract class BowOnReleaseMixin implements BowItemInterface {
             @Local(argsOnly = true) ItemStack itemStackLocalRef,
             @Local(argsOnly = true) int remainTick
     ){
-        float f = (float)(itemStackLocalRef.getUseDuration() - remainTick) / this.getBowAttributes().getFullChargeTick();
+        float f = (float)(itemStackLocalRef.getUseDuration() - remainTick) / this.rjs$getBowAttributes().getFullChargeTick();
         f = (f * f + f * 2.0F) / 3.0F;
         if (f > 1.0F) {
             f = 1.0F;
@@ -51,7 +51,7 @@ public abstract class BowOnReleaseMixin implements BowItemInterface {
             constant = @Constant(floatValue = 3.0F)
     )
     private float setInitialSpeed(float constant){
-        return this.getBowAttributes().getArrowSpeedScale();
+        return this.rjs$getBowAttributes().getArrowSpeedScale();
     }
 
 
@@ -62,7 +62,7 @@ public abstract class BowOnReleaseMixin implements BowItemInterface {
             ordinal = 0
     )
     private boolean setInfinity(boolean bl){
-        return bl || this.getBowAttributes().isInfinity();
+        return bl || this.rjs$getBowAttributes().isInfinity();
     }
 
     @ModifyVariable(
@@ -77,9 +77,9 @@ public abstract class BowOnReleaseMixin implements BowItemInterface {
             @Local(ordinal = 1) ItemStack arrow,
             @Local(argsOnly = true) LivingEntity player
     ){
-        boolean returnValue = bl || this.getBowAttributes().isSpecialInfinity();
+        boolean returnValue = bl || this.rjs$getBowAttributes().isSpecialInfinity();
         if(!(player instanceof Player)) return returnValue;
-        if(!returnValue && this.getBowAttributes().isInfinity()){
+        if(!returnValue && this.rjs$getBowAttributes().isInfinity()){
             ItemStack simulatorBow = bow.copy();
             simulatorBow.enchant(Enchantments.INFINITY_ARROWS, 1);
             returnValue = (arrow.getItem() instanceof ArrowItem
@@ -94,7 +94,7 @@ public abstract class BowOnReleaseMixin implements BowItemInterface {
             ordinal = 2
     )
     private int setBowPower(int i){
-        return i + this.getBowAttributes().getPower();
+        return i + this.rjs$getBowAttributes().getPower();
     }
 
     @ModifyVariable(
@@ -103,7 +103,7 @@ public abstract class BowOnReleaseMixin implements BowItemInterface {
             ordinal = 3
     )
     private int setKnockback(int i){
-        return i + this.getBowAttributes().getKnockBack();
+        return i + this.rjs$getBowAttributes().getKnockBack();
     }
 
     @Inject(
@@ -116,16 +116,16 @@ public abstract class BowOnReleaseMixin implements BowItemInterface {
     private void modifyArrowFinal(ItemStack bow, Level level, LivingEntity player, int remainTick, CallbackInfo ci,
                                   @Local LocalRef<AbstractArrow> arrowRef
     ){
-        double damageModifier = this.getBowAttributes().getBaseDamage() - BowUtils.defaultBaseDamage;
+        double damageModifier = this.rjs$getBowAttributes().getBaseDamage() - BowUtils.defaultBaseDamage;
         AbstractArrow arrow = arrowRef.get();
         arrow.setBaseDamage(arrow.getBaseDamage() + damageModifier);
-        if(this.getBowAttributes().isFlamingArrow()) arrow.setSecondsOnFire(100);
-        if(this.getBowAttributes().isNoDamage()) arrow.setBaseDamage(0);
-        ((ProjectileInterface)arrow).rangedjs$setHitBehavior(getHitBehavior());
+        if(this.rjs$isFlamingArrow()) arrow.setSecondsOnFire(100);
+        if(this.rjs$getBowAttributes().isNoDamage()) arrow.setBaseDamage(0);
+        ((ProjectileInterface)arrow).rangedjs$setHitBehavior(rjs$getHitBehavior());
         arrowRef.set(arrow);
         BowReleaseContext bowReleaseContext = new BowReleaseContext(bow, level, player, remainTick, ci);
         bowReleaseContext.setArrow(arrow);
-        this.getReleaseCallback().accept(bowReleaseContext);
+        this.rjs$getReleaseCallback().accept(bowReleaseContext);
         arrowRef.set(bowReleaseContext.getArrow());
     }
 }

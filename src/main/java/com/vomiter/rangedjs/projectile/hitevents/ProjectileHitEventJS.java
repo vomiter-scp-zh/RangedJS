@@ -1,4 +1,4 @@
-package com.vomiter.rangedjs.projectile;
+package com.vomiter.rangedjs.projectile.hitevents;
 
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.HideFromJS;

@@ -32,7 +32,7 @@ public abstract class AbstractClientPlayerMixin extends Player{
     private float modifyPullTickDivider(float constant){
         Item item = this.getUseItem().getItem();
         if(!(item instanceof BowItem)) return 20.0F;
-        return ((BowItemInterface)item).getBowAttributes().getFullChargeTick();
+        return ((BowItemInterface)item).rjs$getBowAttributes().getFullChargeTick();
     }
 
     @Unique
@@ -42,7 +42,7 @@ public abstract class AbstractClientPlayerMixin extends Player{
         if(!this.isUsingItem()) return;
         Item useItem = this.useItem.getItem();
         if((useItem instanceof BowItem) && !useItem.equals(Items.BOW)){
-            int fullChargeTicks = ((BowItemInterface)useItem).getBowAttributes().getFullChargeTick();
+            int fullChargeTicks = ((BowItemInterface)useItem).rjs$getBowAttributes().getFullChargeTick();
             int i = this.getTicksUsingItem();
             float f1 = (float)i / fullChargeTicks;
             if (f1 > 1.0F) {

@@ -30,7 +30,7 @@ public class CrossbowItemBuilder extends ItemBuilder {
     @Override
     public Item createObject() {
         CrossbowItem newCrossbow = new CrossbowItem(createItemProperties());
-        ((CrossbowItemInterface)newCrossbow).rjs$setCrossbowProperties(crossbowProperties);
+        ((CrossbowItemInterface)newCrossbow).rjs$setBowProperties(crossbowProperties);
 
         if(anim == null){
             anim = UseAnim.CROSSBOW;

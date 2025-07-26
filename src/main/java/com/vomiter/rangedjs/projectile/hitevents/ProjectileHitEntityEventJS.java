@@ -1,4 +1,4 @@
-package com.vomiter.rangedjs.projectile;
+package com.vomiter.rangedjs.projectile.hitevents;
 
 import dev.latvian.mods.kubejs.typings.Info;
 import net.minecraft.world.entity.Entity;

@@ -1,84 +1,35 @@
 package com.vomiter.rangedjs.item.crossbow;
 
-import com.vomiter.rangedjs.item.context.CrossbowUseContext;
-import com.vomiter.rangedjs.projectile.HitBehavior;
+import com.vomiter.rangedjs.item.ArrowShootingInterface;
+import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
+import dev.latvian.mods.rhino.util.RemapForJS;
 
 import java.util.function.Consumer;
 
-public interface CrossbowItemInterface {
+public interface CrossbowItemInterface extends ArrowShootingInterface {
+
+    @Override
+    @HideFromJS
+    default CrossbowProperties rjs$getBowProperties(){return new CrossbowProperties();}
+
+    @Override
+    @HideFromJS
+    default CrossbowUseBehavior rjs$getUseBehavior(){return (CrossbowUseBehavior)rjs$getBowProperties().getUseBehavior();}
+
+    @Override
+    @HideFromJS
+    default CrossbowAttributes rjs$getBowAttributes(){return rjs$getBowProperties().crossbowAttributes;}
 
     @HideFromJS
-    default void rjs$setCrossbowProperties(CrossbowProperties b){}
+    default Consumer<UseContext> rjs$getCrossbowShootCallback(){return rjs$getUseBehavior().shootCallback;}
 
-    @HideFromJS
-    default CrossbowProperties rjs$getCrossbowProperties(){return new CrossbowProperties();}
-
-    @HideFromJS
-    default CrossbowUseBehavior rjs$getCrossbowUseBehavior(){return rjs$getCrossbowProperties().crossbowUseBehavior;}
-
-    @HideFromJS
-    default Consumer<CrossbowUseContext> rjs$getUseCallback(){return rjs$getCrossbowUseBehavior().useCallback;}
-
-    @HideFromJS
-    default Consumer<CrossbowUseContext> rjs$getUseTickCallback(){return rjs$getCrossbowUseBehavior().useTickCallback;}
-
-    @HideFromJS
-    default CrossbowAttributes rjs$getCrossbowAttributes(){return rjs$getCrossbowProperties().crossbowAttributes;}
-
-    @HideFromJS
-    default HitBehavior rjs$getHitBehavior(){return rjs$getCrossbowProperties().hitBehavior;}
-
+    @RemapForJS("crossbow")
     @SuppressWarnings("unused")
-    default int rjs$getFullChargeTick() {
-        return rjs$getCrossbowAttributes().getFullChargeTick();
-    }
-
-    @SuppressWarnings("unused")
-    default double rjs$getArrowDamage() {
-        return rjs$getCrossbowAttributes().getArrowDamage();
-    }
-
-    @SuppressWarnings("unused")
-    default int rjs$getPower() {
-        return rjs$getCrossbowAttributes().getPower();
-    }
-
-    @SuppressWarnings("unused")
-    default int rjs$getKnockBack() {
-        return rjs$getCrossbowAttributes().getKnockBack();
-    }
-
-    @SuppressWarnings("unused")
-    default float rjs$getArrowSpeedScale() {
-        return rjs$getCrossbowAttributes().getArrowSpeedScale();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean rjs$isFlamingArrow() {
-        return rjs$getCrossbowAttributes().isFlamingArrow();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean rjs$isInfinity() {
-        return rjs$getCrossbowAttributes().isInfinity();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean rjs$isSpecialInfinity() {
-        return rjs$getCrossbowAttributes().isSpecialInfinity();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean rjs$isNoDamage() {
-        return rjs$getCrossbowAttributes().isNoDamage();
-    }
-
-    @SuppressWarnings("unused")
-    default CrossbowItemInterface crossbow(Consumer<CrossbowProperties> consumer){
-        CrossbowProperties properties = this.rjs$getCrossbowProperties();
+    default CrossbowItemInterface rjs$crossbow(Consumer<CrossbowProperties> consumer){
+        CrossbowProperties properties = this.rjs$getBowProperties();
         consumer.accept(properties);
-        this.rjs$setCrossbowProperties(properties);
+        this.rjs$setBowProperties(properties);
         return this;
     }
 }

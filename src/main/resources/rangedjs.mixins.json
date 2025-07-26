@@ -6,7 +6,8 @@
   "mixins": [
     "AbstractArrowMixin",
     "BowItemMixin",
-    "BowOnReleaseMixin",
+    "BowOnShootMixin",
+    "CrossbowOnShootMixin",
     "LivingEntityMixin",
     "ProjectileMixin"
   ],

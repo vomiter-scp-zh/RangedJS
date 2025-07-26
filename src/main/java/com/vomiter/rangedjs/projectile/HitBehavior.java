@@ -1,21 +1,20 @@
 package com.vomiter.rangedjs.projectile;
 
-import dev.latvian.mods.kubejs.typings.Info;
+import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitBlockEventJS;
+import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitEntityEventJS;
+import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitEventJS;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
-import net.minecraft.world.entity.LivingEntity;
 
 import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class HitBehavior {
-    protected Consumer<LivingEntity> postHurtEffect;
+
     protected Consumer<ProjectileHitEntityEventJS> hitEntity;
     protected Consumer<ProjectileHitBlockEventJS> hitBlock;
     protected Consumer<ProjectileHitEventJS> hit;
 
-    @HideFromJS
-    public Consumer<LivingEntity> getPostHurtEffect() { return postHurtEffect; }
 
     @HideFromJS
     public Consumer<ProjectileHitEntityEventJS> getHitEntity() { return hitEntity; }
@@ -25,12 +24,6 @@ public class HitBehavior {
 
     @HideFromJS
     public Consumer<ProjectileHitEventJS> getHit() { return hit; }
-
-    @Info("This will only apply to the living entity hit by the arrow. Non-living entity will not trigger the effects.")
-    @RemapForJS("postHurtEffect")
-    public void setPostHurtEffect(Consumer<LivingEntity> postHurtEffect) {
-        this.postHurtEffect = postHurtEffect;
-    }
 
     @RemapForJS("hitEntity")
     public void setHitEntity(Consumer<ProjectileHitEntityEventJS> hitEntity) {

@@ -1,9 +1,10 @@
 package com.vomiter.rangedjs.item.crossbow;
 
+import com.vomiter.rangedjs.item.Attributes;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.HideFromJS;
 
-public class CrossbowAttributes {
+public class CrossbowAttributes extends Attributes {
     protected boolean specialInfinity = false;
     protected boolean infinity = false;
     protected boolean flamingArrow = false;
