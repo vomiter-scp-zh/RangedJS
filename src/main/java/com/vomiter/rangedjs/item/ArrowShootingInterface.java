@@ -1,12 +1,7 @@
 package com.vomiter.rangedjs.item;
 
-import com.vomiter.rangedjs.item.bow.BowProperties;
-import com.vomiter.rangedjs.item.context.ReleaseContext;
-import com.vomiter.rangedjs.item.context.UseContext;
 import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.rhino.util.HideFromJS;
-
-import java.util.function.Consumer;
 
 public interface ArrowShootingInterface extends ItemInterface {
 

@@ -1,6 +1,5 @@
 package com.vomiter.rangedjs.item;
 
-import com.vomiter.rangedjs.item.bow.BowUseBehavior;
 import com.vomiter.rangedjs.item.context.ReleaseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;

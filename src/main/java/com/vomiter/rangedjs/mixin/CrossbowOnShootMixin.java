@@ -2,7 +2,6 @@ package com.vomiter.rangedjs.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.rangedjs.item.ArrowShootingProperties;
-import com.vomiter.rangedjs.item.context.BowUseContext;
 import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import com.vomiter.rangedjs.item.crossbow.CrossbowItemInterface;

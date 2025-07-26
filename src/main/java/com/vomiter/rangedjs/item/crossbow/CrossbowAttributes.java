@@ -22,8 +22,9 @@ public class CrossbowAttributes extends Attributes {
         return fullChargeTick;
     }
 
+    @Override
     @HideFromJS
-    public double getArrowDamage() {
+    public double getBaseDamage() {
         return arrowDamage;
     }
 

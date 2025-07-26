@@ -44,8 +44,9 @@ public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInte
     private void doPostHurtEffects(LivingEntity livingEntity, CallbackInfo ci) {
         HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
         if(hitBehavior == null) return;
-        if(hitBehavior instanceof ArrowHitBehavior arrowHitBehavior)
-        Optional.ofNullable(arrowHitBehavior.getPostHurtEffect()).orElse(t -> {}).accept(livingEntity);
+        if(hitBehavior instanceof ArrowHitBehavior arrowHitBehavior){
+            Optional.ofNullable(arrowHitBehavior.getPostHurtEffect()).orElse(t -> {}).accept(livingEntity);
+        }
     }
 
 }
