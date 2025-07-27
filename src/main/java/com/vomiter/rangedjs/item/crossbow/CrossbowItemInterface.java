@@ -1,9 +1,13 @@
 package com.vomiter.rangedjs.item.crossbow;
 
 import com.vomiter.rangedjs.item.ArrowShootingInterface;
+import com.vomiter.rangedjs.item.bow.BowRenderRegister;
 import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.DistExecutor;
 
 import java.util.function.Consumer;
 
@@ -30,6 +34,7 @@ public interface CrossbowItemInterface extends ArrowShootingInterface {
         CrossbowProperties properties = this.rjs$getBowProperties();
         consumer.accept(properties);
         this.rjs$setBowProperties(properties);
+        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> CrossbowRenderRegister.register((Item)this));
         return this;
     }
 }

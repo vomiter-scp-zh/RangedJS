@@ -93,6 +93,7 @@ public class CrossbowAttributes extends Attributes {
         return this;
     }
 
+    @HideFromJS
     @SuppressWarnings("unused")
     public CrossbowAttributes specialInfinity(){
         this.infinity = true;

@@ -20,7 +20,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import static net.minecraft.world.item.CrossbowItem.performShooting;
+import static net.minecraft.world.item.CrossbowItem.setCharged;
 
 @Mixin(value = CrossbowItem.class)
 public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
@@ -71,7 +75,16 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
         if(crossbowItem.rjs$isFlamingArrow()){
             arrow.setSecondsOnFire(100);
         }
+        if(crossbowItem.rjs$isNoDamage()){
+            arrow.setBaseDamage(0);
+        }
         ((ProjectileInterface)arrow).rangedjs$setHitBehavior(crossbowItem.rjs$getHitBehavior());
+    }
+
+    @ModifyVariable(method="tryLoadProjectiles", at = @At("STORE"))
+    private static boolean infinity(boolean bl, @Local(argsOnly = true) ItemStack crossbow){
+        CrossbowItemInterface crossbowItem = (CrossbowItemInterface)crossbow.getItem();
+        return crossbowItem.rjs$isInfinity()||bl;
     }
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
@@ -81,9 +94,5 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
         if(!CrossbowItem.isCharged(item)) return;
         this.rjs$getCrossbowShootCallback().accept(ctx);
         if(ctx.getResult().equals(UseContext.Result.DENY)) cir.setReturnValue(InteractionResultHolder.fail(item));
-        else if(ctx.getResult().equals(UseContext.Result.ALLOW)) {
-            player.startUsingItem(hand);
-            cir.setReturnValue(InteractionResultHolder.consume(item));
-        }
     }
 }

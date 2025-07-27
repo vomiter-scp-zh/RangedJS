@@ -1,14 +1,13 @@
 package com.vomiter.rangedjs.item.bow;
 
 
+import com.vomiter.rangedjs.item.ArrowShootingInterface;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +25,7 @@ public class BowRenderRegister {
                 if (entity == null) return 0.0F;
                 if (!entity.getUseItem().equals(stack)) return 0.0F;
                 Item item = stack.getItem();
-                return (float) getPullingTicks(entity, stack) / ((BowItemInterface)item).rjs$getBowAttributes().getFullChargeTick();
+                return (float) getPullingTicks(entity, stack) / ((ArrowShootingInterface)item).rjs$getBowAttributes().getFullChargeTick();
             };
 
 
@@ -38,10 +37,14 @@ public class BowRenderRegister {
                             : 0.0F
             );
 
-    static public DistExecutor.SafeRunnable register(BowItem newBow){
+    static public void innerRegister(Item newBow){
+        ItemProperties.register(newBow, PULL, PULL_PROVIDER);
+        ItemProperties.register(newBow, PULLING, PULLING_PROVIDER);
+    }
+
+    static public DistExecutor.SafeRunnable register(Item newBow){
         return () -> {
-            ItemProperties.register(newBow, PULL, PULL_PROVIDER);
-            ItemProperties.register(newBow, PULLING, PULLING_PROVIDER);
+            innerRegister(newBow);
         };
     }
 }
