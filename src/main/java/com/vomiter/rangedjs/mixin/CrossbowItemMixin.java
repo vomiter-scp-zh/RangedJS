@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = CrossbowItem.class)
 public class CrossbowItemMixin implements CrossbowItemInterface {
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void onShoot(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
+    private void onPull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
         CrossbowUseContext ctx = new CrossbowUseContext(level, player, hand, cir);
         ItemStack item = player.getItemInHand(hand);
         if(CrossbowItem.isCharged(item)) return;
