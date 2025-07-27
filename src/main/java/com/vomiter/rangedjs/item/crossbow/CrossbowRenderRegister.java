@@ -15,9 +15,7 @@ public class CrossbowRenderRegister extends BowRenderRegister {
     static public DistExecutor.SafeRunnable register(Item newCrossbow){
         return () -> {
             innerRegister(newCrossbow);
-            ItemProperties.register(newCrossbow, CHARGED, (p_275891_, p_275892_, p_275893_, p_275894_) -> {
-                return CrossbowItem.isCharged(p_275891_) ? 1.0F : 0.0F;
-            });
+            ItemProperties.register(newCrossbow, CHARGED, (p_275891_, p_275892_, p_275893_, p_275894_) -> CrossbowItem.isCharged(p_275891_) ? 1.0F : 0.0F);
             ItemProperties.register(newCrossbow, FIREWORK, (p_275887_, p_275888_, p_275889_, p_275890_) -> {
                 return CrossbowItem.isCharged(p_275887_) && CrossbowItem.containsChargedProjectile(p_275887_, Items.FIREWORK_ROCKET) ? 1.0F : 0.0F;
             });

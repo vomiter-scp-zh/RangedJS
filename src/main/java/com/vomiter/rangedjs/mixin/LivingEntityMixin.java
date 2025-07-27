@@ -1,7 +1,6 @@
 package com.vomiter.rangedjs.mixin;
 
 import com.vomiter.rangedjs.item.bow.BowItemInterface;
-import com.vomiter.rangedjs.item.context.BowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import com.vomiter.rangedjs.item.crossbow.CrossbowItemInterface;
 import net.minecraft.world.entity.LivingEntity;

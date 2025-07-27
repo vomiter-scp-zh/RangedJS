@@ -1,6 +1,5 @@
 package com.vomiter.rangedjs.mixin;
 
-import com.google.gson.Gson;
 import com.vomiter.rangedjs.item.model.EasyBowLikeModel;
 import com.vomiter.rangedjs.item.model.EasyCrossbowModel;
 import com.vomiter.rangedjs.kubejs.GenerateClientAssetsEventJSInterface;
@@ -8,8 +7,6 @@ import dev.latvian.mods.kubejs.client.GenerateClientAssetsEventJS;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-
-import java.util.Map;
 
 @Mixin(value = GenerateClientAssetsEventJS.class)
 public abstract class GenerateClientAssetsEventJSMixin implements GenerateClientAssetsEventJSInterface {

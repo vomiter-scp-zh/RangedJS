@@ -1,7 +1,6 @@
 package com.vomiter.rangedjs.item.crossbow;
 
 import com.vomiter.rangedjs.item.ArrowShootingInterface;
-import com.vomiter.rangedjs.item.bow.BowRenderRegister;
 import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;

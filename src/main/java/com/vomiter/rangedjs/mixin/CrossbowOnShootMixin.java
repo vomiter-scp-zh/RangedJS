@@ -23,9 +23,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import static net.minecraft.world.item.CrossbowItem.performShooting;
-import static net.minecraft.world.item.CrossbowItem.setCharged;
-
 @Mixin(value = CrossbowItem.class)
 public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
     @Unique

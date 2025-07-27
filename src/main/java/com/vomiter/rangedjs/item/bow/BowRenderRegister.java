@@ -43,8 +43,6 @@ public class BowRenderRegister {
     }
 
     static public DistExecutor.SafeRunnable register(Item newBow){
-        return () -> {
-            innerRegister(newBow);
-        };
+        return () -> innerRegister(newBow);
     }
 }

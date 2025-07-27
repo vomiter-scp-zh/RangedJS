@@ -1,6 +1,5 @@
 package com.vomiter.rangedjs.item.crossbow;
 
-import com.vomiter.rangedjs.item.bow.BowRenderRegister;
 import dev.latvian.mods.kubejs.item.ItemBuilder;
 import dev.latvian.mods.kubejs.typings.Info;
 import net.minecraft.resources.ResourceLocation;
