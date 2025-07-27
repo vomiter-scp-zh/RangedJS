@@ -62,7 +62,7 @@ public class EasyBowLikeModel {
     public JsonElement createMainJson(ResourceLocation id){
         Gson gson = new Gson();
         JsonElement json = gson.toJsonTree(createMap(id, null));
-        RangedJS.LOGGER.info(json.toString());
+        RangedJS.LOGGER.debug(json.toString());
         return json;
     }
 
