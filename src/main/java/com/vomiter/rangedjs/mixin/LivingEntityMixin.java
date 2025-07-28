@@ -1,6 +1,8 @@
 package com.vomiter.rangedjs.mixin;
 
 import com.vomiter.rangedjs.item.bow.BowItemInterface;
+import com.vomiter.rangedjs.item.context.BowUseContext;
+import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import com.vomiter.rangedjs.item.crossbow.CrossbowItemInterface;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,13 +24,16 @@ public class LivingEntityMixin {
     @Inject(method = "updatingUsingItem", at = @At("HEAD"))
     private void pullTick(CallbackInfo ci){
         if(!(rjs$this instanceof Player)) return; //duct tape
-        UseContext ctx = new UseContext(rjs$this.level(), (Player)rjs$this, rjs$this.getUsedItemHand(), ci);
         ItemStack itemStack = rjs$this.getUseItem();
         if(itemStack.getItem() instanceof BowItem){
-            ((BowItemInterface)itemStack.getItem()).rjs$getUseTickCallback().accept(ctx);
+            ((BowItemInterface)itemStack.getItem()).rjs$getUseTickCallback().accept(
+                    new BowUseContext(rjs$this.level(), (Player)rjs$this, rjs$this.getUsedItemHand(), ci)
+            );
         }
         if(itemStack.getItem() instanceof CrossbowItem){
-            ((CrossbowItemInterface)itemStack.getItem()).rjs$getUseTickCallback().accept(ctx);
+            ((CrossbowItemInterface)itemStack.getItem()).rjs$getUseTickCallback().accept(
+                    new CrossbowUseContext(rjs$this.level(), (Player)rjs$this, rjs$this.getUsedItemHand(), ci)
+            );
         }
     }
 }
