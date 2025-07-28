@@ -29,6 +29,7 @@ public class CrossbowAttributes extends ArrowShootingAttributes {
 
     public CrossbowAttributes(){}
 
+    @SuppressWarnings("unused")
     public CrossbowAttributes pierce(byte b){
         this.pierce = b;
         return this;

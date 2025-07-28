@@ -2,7 +2,6 @@ package com.vomiter.rangedjs.item.crossbow;
 
 import com.vomiter.rangedjs.item.ArrowShootingInterface;
 import com.vomiter.rangedjs.item.context.CrossbowUseContext;
-import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.world.item.Item;

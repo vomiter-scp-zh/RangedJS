@@ -4,8 +4,6 @@ package com.vomiter.rangedjs.item.bow;
 import com.vomiter.rangedjs.item.UseBehavior;
 import com.vomiter.rangedjs.item.context.BowReleaseContext;
 import com.vomiter.rangedjs.item.context.BowUseContext;
-import com.vomiter.rangedjs.item.context.ReleaseContext;
-import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.kubejs.typings.Info;
 
 import java.util.function.Consumer;

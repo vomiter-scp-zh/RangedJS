@@ -1,8 +1,8 @@
 package com.vomiter.rangedjs.item.bow;
 
 import com.vomiter.rangedjs.item.ArrowShootingInterface;
-import com.vomiter.rangedjs.item.context.ReleaseContext;
-import com.vomiter.rangedjs.item.context.UseContext;
+import com.vomiter.rangedjs.item.context.BowReleaseContext;
+import com.vomiter.rangedjs.item.context.BowUseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.world.item.BowItem;
 import net.minecraftforge.api.distmarker.Dist;
@@ -25,15 +25,15 @@ public interface BowItemInterface extends ArrowShootingInterface {
 
     @Override
     @HideFromJS
-    default Consumer<? extends UseContext> rjs$getUseCallback(){return rjs$getUseBehavior().useCallback;}
+    default Consumer<BowUseContext> rjs$getUseCallback(){return rjs$getUseBehavior().useCallback;}
 
     @Override
     @HideFromJS
-    default Consumer<? extends UseContext> rjs$getUseTickCallback(){return rjs$getUseBehavior().useTickCallback;}
+    default Consumer<BowUseContext> rjs$getUseTickCallback(){return rjs$getUseBehavior().useTickCallback;}
 
     @Override
     @HideFromJS
-    default Consumer<? extends ReleaseContext> rjs$getReleaseCallback(){return rjs$getUseBehavior().releaseCallback;}
+    default Consumer<BowReleaseContext> rjs$getReleaseCallback(){return rjs$getUseBehavior().releaseCallback;}
 
 
     @SuppressWarnings("unused")
