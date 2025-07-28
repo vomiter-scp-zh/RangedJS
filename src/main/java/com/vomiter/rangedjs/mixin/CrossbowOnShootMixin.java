@@ -1,6 +1,7 @@
 package com.vomiter.rangedjs.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.vomiter.rangedjs.item.ArrowShootingProperties;
 import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
@@ -94,7 +95,8 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
     }
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void onShoot(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
+    private void onShoot(
+            Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
         CrossbowUseContext ctx = new CrossbowUseContext(level, player, hand, cir);
         ItemStack item = player.getItemInHand(hand);
         if(!CrossbowItem.isCharged(item)) return;

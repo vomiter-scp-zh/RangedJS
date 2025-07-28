@@ -1,5 +1,6 @@
 package com.vomiter.rangedjs.item.context;
 
+import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
@@ -36,6 +37,7 @@ public class CrossbowUseContext extends UseContext {
         return arrowStack;
     }
 
+    @HideFromJS
     public void setArrow(AbstractArrow arrow){
         this.arrow = arrow;
     }
