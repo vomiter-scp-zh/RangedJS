@@ -121,6 +121,7 @@ public abstract class BowOnShootMixin implements BowItemInterface {
         arrow.setBaseDamage(arrow.getBaseDamage() + damageModifier);
         if(this.rjs$isFlamingArrow()) arrow.setSecondsOnFire(100);
         if(this.rjs$getBowAttributes().isNoDamage()) arrow.setBaseDamage(0);
+        if(this.rjs$getBowAttributes().getPierce() > 0) arrow.setPierceLevel(rjs$getBowAttributes().getPierce());
         ((ProjectileInterface)arrow).rangedjs$setHitBehavior(rjs$getHitBehavior());
         arrowRef.set(arrow);
         BowReleaseContext bowReleaseContext = new BowReleaseContext(bow, level, player, remainTick, ci);

@@ -8,7 +8,7 @@ public interface ArrowShootingProperties {
     UseBehavior getUseBehavior();
 
     @HideFromJS
-    Attributes getAttributes();
+    ArrowShootingAttributes getAttributes();
 
     @HideFromJS
     HitBehavior getHitBehavior();

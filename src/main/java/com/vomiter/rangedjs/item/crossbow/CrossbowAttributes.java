@@ -1,22 +1,15 @@
 package com.vomiter.rangedjs.item.crossbow;
 
-import com.vomiter.rangedjs.item.Attributes;
+import com.vomiter.rangedjs.item.ArrowShootingAttributes;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.HideFromJS;
 
-public class CrossbowAttributes extends Attributes {
-    protected boolean specialInfinity = false;
-    protected boolean infinity = false;
-    protected boolean flamingArrow = false;
-    protected int knockBack = 0;
-    protected int power = 0;
-
+public class CrossbowAttributes extends ArrowShootingAttributes {
     protected int fullChargeTick = CrossbowUtils.defaultFullChargeTick;
     protected double arrowDamage = CrossbowUtils.defaultArrowDamage;
     protected float arrowSpeedScale = CrossbowUtils.defaultSpeedScale;
 
-    protected boolean noDamage = false;
-
+    @Override
     @HideFromJS
     public int getFullChargeTick() {
         return fullChargeTick;
@@ -28,50 +21,25 @@ public class CrossbowAttributes extends Attributes {
         return arrowDamage;
     }
 
-    @HideFromJS
-    public int getPower() {
-        return power;
-    }
-
-    @HideFromJS
-    public int getKnockBack() {
-        return knockBack;
-    }
-
+    @Override
     @HideFromJS
     public float getArrowSpeedScale() {
         return arrowSpeedScale;
     }
 
-    @HideFromJS
-    public boolean isFlamingArrow() {
-        return flamingArrow;
-    }
-
-    @HideFromJS
-    public boolean isInfinity() {
-        return infinity;
-    }
-
-    @HideFromJS
-    public boolean isSpecialInfinity() {
-        return specialInfinity;
-    }
-
-    @HideFromJS
-    public boolean isNoDamage() {
-        return noDamage;
-    }
-
     public CrossbowAttributes(){}
 
-    @Info("The damage caused by arrows shot by this bow will be 0.")
+    public CrossbowAttributes pierce(byte b){
+        this.pierce = b;
+        return this;
+    }
+
+    @Info("The damage caused by arrows shot by this crossbow will be 0.")
     @SuppressWarnings("unused")
     public CrossbowAttributes noDamage(boolean b){
         this.noDamage = b;
         return this;
     }
-
 
     @SuppressWarnings("unused")
     public CrossbowAttributes arrowSpeed(float f){

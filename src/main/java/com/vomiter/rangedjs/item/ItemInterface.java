@@ -11,12 +11,12 @@ public interface ItemInterface {
     UseBehavior rjs$getUseBehavior();
 
     @HideFromJS
-    default Consumer<UseContext> rjs$getUseCallback(){return rjs$getUseBehavior().useCallback;}
+    default Consumer<? extends UseContext> rjs$getUseCallback(){return rjs$getUseBehavior().getUseCallback();}
 
     @HideFromJS
-    default Consumer<UseContext> rjs$getUseTickCallback(){return rjs$getUseBehavior().useTickCallback;}
+    default Consumer<? extends UseContext> rjs$getUseTickCallback(){return rjs$getUseBehavior().getUseTickCallback();}
 
     @HideFromJS
-    default Consumer<ReleaseContext> rjs$getReleaseCallback(){return rjs$getUseBehavior().releaseCallback;}
+    default Consumer<? extends ReleaseContext> rjs$getReleaseCallback(){return rjs$getUseBehavior().getReleaseCallback();}
 
 }

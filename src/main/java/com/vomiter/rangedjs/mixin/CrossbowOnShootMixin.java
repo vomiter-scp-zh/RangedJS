@@ -78,6 +78,11 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
         if(crossbowItem.rjs$isInfinity()){
             arrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
         }
+        if(crossbowItem.rjs$getBowAttributes().getPierce() > 0) {
+            arrow.setPierceLevel(
+                    (byte)(crossbowItem.rjs$getBowAttributes().getPierce() + arrow.getPierceLevel())
+            );
+        }
 
         ((ProjectileInterface)arrow).rangedjs$setHitBehavior(crossbowItem.rjs$getHitBehavior());
     }

@@ -1,6 +1,7 @@
 package com.vomiter.rangedjs.item.crossbow;
 
 import com.vomiter.rangedjs.item.ArrowShootingInterface;
+import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
@@ -25,7 +26,18 @@ public interface CrossbowItemInterface extends ArrowShootingInterface {
     default CrossbowAttributes rjs$getBowAttributes(){return rjs$getBowProperties().crossbowAttributes;}
 
     @HideFromJS
-    default Consumer<UseContext> rjs$getCrossbowShootCallback(){return rjs$getUseBehavior().shootCallback;}
+    default Consumer<CrossbowUseContext> rjs$getCrossbowShootCallback(){return rjs$getUseBehavior().shootCallback;}
+
+    @Override
+    default Consumer<CrossbowUseContext> rjs$getUseCallback(){
+        return rjs$getUseBehavior().useCallback;
+    }
+
+    @Override
+    default Consumer<CrossbowUseContext> rjs$getUseTickCallback(){
+        return rjs$getUseBehavior().useCallback;
+    }
+
 
     @RemapForJS("crossbow")
     @SuppressWarnings("unused")

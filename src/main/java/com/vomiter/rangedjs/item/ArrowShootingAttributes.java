@@ -1,12 +1,13 @@
 package com.vomiter.rangedjs.item;
 import dev.latvian.mods.rhino.util.HideFromJS;
 
-public abstract class Attributes {
+public abstract class ArrowShootingAttributes {
     protected boolean specialInfinity = false;
     protected boolean infinity = false;
     protected boolean flamingArrow = false;
     protected int knockBack = 0;
     protected int power = 0;
+    protected byte pierce = 0;
 
     protected int fullChargeTick;
     protected double arrowDamage;
@@ -37,6 +38,11 @@ public abstract class Attributes {
     @HideFromJS
     public float getArrowSpeedScale() {
         return arrowSpeedScale;
+    }
+
+    @HideFromJS
+    public byte getPierce(){
+        return pierce;
     }
 
     @HideFromJS

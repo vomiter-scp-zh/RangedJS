@@ -16,7 +16,7 @@ public interface ArrowShootingInterface extends ItemInterface {
     default UseBehavior rjs$getUseBehavior(){return rjs$getBowProperties().getUseBehavior();}
 
     @HideFromJS
-    default Attributes rjs$getBowAttributes(){return rjs$getBowProperties().getAttributes();}
+    default ArrowShootingAttributes rjs$getBowAttributes(){return rjs$getBowProperties().getAttributes();}
 
     @HideFromJS
     default HitBehavior rjs$getHitBehavior(){return rjs$getBowProperties().getHitBehavior();}

@@ -1,21 +1,13 @@
 package com.vomiter.rangedjs.item.bow;
 
-import com.vomiter.rangedjs.item.Attributes;
+import com.vomiter.rangedjs.item.ArrowShootingAttributes;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.HideFromJS;
 
-public class BowAttributes extends Attributes {
-    protected boolean specialInfinity = false;
-    protected boolean infinity = false;
-    protected boolean flamingArrow = false;
-    protected int knockBack = 0;
-    protected int power = 0;
-
+public class BowAttributes extends ArrowShootingAttributes {
     protected int fullChargeTick = BowUtils.defaultFullChargeTick;
     protected double baseDamage = BowUtils.defaultBaseDamage;
     protected float arrowSpeedScale = BowUtils.defaultSpeedScale;
-
-    protected boolean noDamage = false;
 
     @HideFromJS
     public int getFullChargeTick() {
@@ -28,41 +20,17 @@ public class BowAttributes extends Attributes {
     }
 
     @HideFromJS
-    public int getPower() {
-        return power;
-    }
-
-    @HideFromJS
-    public int getKnockBack() {
-        return knockBack;
-    }
-
-    @HideFromJS
     public float getArrowSpeedScale() {
         return arrowSpeedScale;
     }
 
-    @HideFromJS
-    public boolean isFlamingArrow() {
-        return flamingArrow;
-    }
-
-    @HideFromJS
-    public boolean isInfinity() {
-        return infinity;
-    }
-
-    @HideFromJS
-    public boolean isSpecialInfinity() {
-        return specialInfinity;
-    }
-
-    @HideFromJS
-    public boolean isNoDamage() {
-        return noDamage;
-    }
-
     public BowAttributes(){}
+
+    @SuppressWarnings("unused")
+    public BowAttributes pierce(byte b){
+        this.pierce = b;
+        return this;
+    }
 
     @Info("The damage caused by arrows shot by this bow will be 0.")
     @SuppressWarnings("unused")
@@ -93,6 +61,7 @@ public class BowAttributes extends Attributes {
     }
 
     @Info("This is a typo. Please use .fullChargeTick in newer version. This method will be deprecated one day.")
+    @Deprecated
     @SuppressWarnings("unused")
     public BowAttributes fullChargeTicks(int t){
         this.fullChargeTick = t;

@@ -24,7 +24,7 @@ public class BowUseContext extends UseContext {
 
 
     @SuppressWarnings("unused")
-    public ItemStack getArrow() {
+    public ItemStack getArrowStack() {
         return arrow;
     }
 }

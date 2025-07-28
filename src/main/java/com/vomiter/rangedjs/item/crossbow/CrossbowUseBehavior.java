@@ -2,20 +2,21 @@ package com.vomiter.rangedjs.item.crossbow;
 
 
 import com.vomiter.rangedjs.item.UseBehavior;
+import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.kubejs.typings.Info;
 
 import java.util.function.Consumer;
 
 public class CrossbowUseBehavior extends UseBehavior {
-    protected Consumer<UseContext> useCallback = (t)->{};
+    protected Consumer<CrossbowUseContext> useCallback = (t)->{};
     protected Consumer<UseContext> useTickCallback = (t)->{};
-    protected Consumer<UseContext> shootCallback = (t)->{};
+    protected Consumer<CrossbowUseContext> shootCallback = (t)->{};
     protected CrossbowUseBehavior(){}
 
     @Info("The event fires when the player is gonna start to pull the bow. For the event during pulling process, use pullTick instead.")
     @SuppressWarnings("unused")
-    public CrossbowUseBehavior pull(Consumer<UseContext> c){
+    public CrossbowUseBehavior pull(Consumer<CrossbowUseContext> c){
         useCallback = c;
         return this;
     }
@@ -29,8 +30,8 @@ public class CrossbowUseBehavior extends UseBehavior {
 
     @Info("The event fires when the player shoot the crossbow.")
     @SuppressWarnings("unused")
-    public CrossbowUseBehavior shoot(Consumer<UseContext> c){
-        useTickCallback = c;
+    public CrossbowUseBehavior shoot(Consumer<CrossbowUseContext> c){
+        shootCallback = c;
         return this;
     }
 
