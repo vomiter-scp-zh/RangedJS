@@ -22,10 +22,10 @@ public interface CrossbowItemInterface extends ArrowShootingInterface {
 
     @Override
     @HideFromJS
-    default CrossbowAttributes rjs$getBowAttributes(){return rjs$getBowProperties().crossbowAttributes;}
+    default CrossbowAttributes rjs$getBowAttributes(){return rjs$getBowProperties().getAttributes();}
 
     @HideFromJS
-    default Consumer<CrossbowUseContext> rjs$getCrossbowShootCallback(){return rjs$getUseBehavior().shootCallback;}
+    default Consumer<CrossbowUseContext> rjs$getCrossbowShootCallback(){return rjs$getUseBehavior().getShootCallback();}
 
     @Override
     default Consumer<CrossbowUseContext> rjs$getUseCallback(){

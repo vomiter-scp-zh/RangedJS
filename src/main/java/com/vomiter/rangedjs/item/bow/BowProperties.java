@@ -6,6 +6,9 @@ import com.vomiter.rangedjs.item.UseBehavior;
 import com.vomiter.rangedjs.projectile.ArrowHitBehavior;
 import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.kubejs.typings.Info;
+import dev.latvian.mods.rhino.util.HideFromJS;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.Item;
 
 import java.util.function.Consumer;
 
@@ -13,8 +16,20 @@ public class BowProperties implements ArrowShootingProperties {
     protected final BowAttributes bowAttributes = new BowAttributes();
     protected final ArrowHitBehavior hitBehavior = new ArrowHitBehavior();
     protected BowUseBehavior bowUseBehavior = new BowUseBehavior();
+    protected Item item;
 
     public BowProperties(){}
+
+    @Override
+    @HideFromJS
+    public Item getItem(){
+        return item;
+    }
+
+    @HideFromJS
+    public void setItem(Item i){
+        item = i;
+    }
 
     @Info("To modify some default attributes of the bow. E.g. ticks to full charge, base arrow damage, native enchantment-like capabilities.")
     @SuppressWarnings("unused")
@@ -25,7 +40,7 @@ public class BowProperties implements ArrowShootingProperties {
 
     @Info("To add stuffs that will happen when the shot arrows hit entity/block")
     @SuppressWarnings("unused")
-    public BowProperties onArrowHit(Consumer<HitBehavior> b){
+    public BowProperties onArrowHit(Consumer<ArrowHitBehavior> b){
         b.accept(hitBehavior);
         return this;
     }
@@ -43,7 +58,7 @@ public class BowProperties implements ArrowShootingProperties {
     }
 
     @Override
-    public ArrowShootingAttributes getAttributes() {
+    public BowAttributes getAttributes() {
         return bowAttributes;
     }
 

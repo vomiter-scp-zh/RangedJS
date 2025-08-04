@@ -32,6 +32,7 @@ public class BowItemBuilder extends ItemBuilder {
     public Item createObject() {
         BowItem newBow = new BowItem(createItemProperties());
         ((BowItemInterface)newBow).rjs$setBowProperties(bowProperties);
+        bowProperties.setItem(newBow);
         DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> BowRenderRegister.register(newBow));
         if(anim == null){
             anim = UseAnim.BOW;

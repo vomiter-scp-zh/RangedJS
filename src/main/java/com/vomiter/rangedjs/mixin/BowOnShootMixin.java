@@ -13,6 +13,7 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -80,10 +81,8 @@ public abstract class BowOnShootMixin implements BowItemInterface {
         boolean returnValue = bl || this.rjs$getBowAttributes().isSpecialInfinity();
         if(!(player instanceof Player)) return returnValue;
         if(!returnValue && this.rjs$getBowAttributes().isInfinity()){
-            ItemStack simulatorBow = bow.copy();
-            simulatorBow.enchant(Enchantments.INFINITY_ARROWS, 1);
             returnValue = (arrow.getItem() instanceof ArrowItem
-                    && ((ArrowItem)arrow.getItem()).isInfinite(arrow, simulatorBow, (Player)player));
+                    && (arrow.getItem()).equals(Items.ARROW));
         }
         return returnValue;
     }

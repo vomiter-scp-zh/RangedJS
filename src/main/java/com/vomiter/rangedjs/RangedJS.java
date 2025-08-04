@@ -13,11 +13,11 @@ import org.slf4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO Crossbow: model
-//TODO Crossbow: during pull
-//TODO Crossbow: on release
+
 
 //TODO compat with archery expansion
+//TODO make skeleton use custom bow
+
 
 //TODO beforeShoot/afterShoot
 //TODO make special ammo/arrow(projectile)
