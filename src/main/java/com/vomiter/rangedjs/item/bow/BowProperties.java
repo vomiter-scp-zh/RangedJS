@@ -1,13 +1,11 @@
 package com.vomiter.rangedjs.item.bow;
 
 import com.vomiter.rangedjs.item.ArrowShootingProperties;
-import com.vomiter.rangedjs.item.ArrowShootingAttributes;
 import com.vomiter.rangedjs.item.UseBehavior;
 import com.vomiter.rangedjs.projectile.ArrowHitBehavior;
 import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.HideFromJS;
-import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 
 import java.util.function.Consumer;

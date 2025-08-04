@@ -8,7 +8,6 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 @SuppressWarnings("unused")
 public class ArrowHitBehavior  extends HitBehavior{

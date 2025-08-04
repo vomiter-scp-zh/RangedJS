@@ -1,7 +1,6 @@
 package com.vomiter.rangedjs.item.crossbow;
 
 import com.vomiter.rangedjs.item.ArrowShootingProperties;
-import com.vomiter.rangedjs.item.ArrowShootingAttributes;
 import com.vomiter.rangedjs.item.UseBehavior;
 import com.vomiter.rangedjs.projectile.ArrowHitBehavior;
 import com.vomiter.rangedjs.projectile.HitBehavior;
