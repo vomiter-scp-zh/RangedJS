@@ -1,28 +1,12 @@
 {
   "required": true,
-  "minVersion": "0.8",
   "package": "com.vomiter.rangedjs.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "plugin": "com.vomiter.rangedjs.RangedJSMixinPlugin",
-  "mixins": [
-    "AbstractArrowMixin",
-    "BowItemMixin",
-    "BowOnShootMixin",
-    "CrossbowItemMixin",
-    "CrossbowOnShootMixin",
-    "LivingEntityMixin",
-    "ProjectileMixin",
-    "compat.archeryexp.AExpBowPropertiesMixin",
-    "compat.archeryexp.BowItemBuilderMixin",
-    "compat.archeryexp.BowPropertiesMixin"
-  ],
-  "client": [
-    "AbstractClientPlayerMixin",
-    "GenerateClientAssetsEventJSMixin",
-    "compat.archeryexp.ArcheryExpBarMixin"
-  ],
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [],
   "injectors": {
     "defaultRequire": 1
   },
-  "refmap": "rangedjs.mixins.refmap.json"
+  "overwrites": {
+    "requireAnnotations": true
+  }
 }
