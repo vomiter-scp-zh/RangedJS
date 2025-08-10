@@ -6,8 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.UseAnim;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
+import net.neoforged.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.function.Consumer;
@@ -32,7 +31,9 @@ public class CrossbowItemBuilder extends ItemBuilder {
     public Item createObject() {
         CrossbowItem newCrossbow = new CrossbowItem(createItemProperties());
         ((CrossbowItemInterface)newCrossbow).rjs$setBowProperties(crossbowProperties);
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> CrossbowRenderRegister.register(newCrossbow));
+        if(FMLLoader.getDist().isClient()){
+            CrossbowRenderRegister.innerRegister(newCrossbow);
+        }
         if(anim == null){
             anim = UseAnim.CROSSBOW;
         }

@@ -6,8 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.UseAnim;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLLoader;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.function.Consumer;
@@ -33,7 +33,9 @@ public class BowItemBuilder extends ItemBuilder {
         BowItem newBow = new BowItem(createItemProperties());
         ((BowItemInterface)newBow).rjs$setBowProperties(bowProperties);
         bowProperties.setItem(newBow);
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> BowRenderRegister.register(newBow));
+        if(FMLLoader.getDist() == Dist.CLIENT){
+            BowRenderRegister.innerRegister(newBow);
+        }
         if(anim == null){
             anim = UseAnim.BOW;
         }

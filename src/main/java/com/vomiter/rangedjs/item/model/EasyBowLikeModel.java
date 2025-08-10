@@ -3,7 +3,7 @@ package com.vomiter.rangedjs.item.model;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.vomiter.rangedjs.RangedJS;
-import dev.latvian.mods.kubejs.client.GenerateClientAssetsEventJS;
+import dev.latvian.mods.kubejs.generator.KubeAssetGenerator;
 import it.unimi.dsi.fastutil.ints.Int2FloatMap;
 import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
@@ -66,14 +66,14 @@ public class EasyBowLikeModel {
         return json;
     }
 
-    public void addMain(ResourceLocation id, GenerateClientAssetsEventJS eventJS, String suffix){
-        eventJS.add(
+    public void addMain(ResourceLocation id, KubeAssetGenerator eventJS, String suffix){
+        eventJS.json(
                 createLocation(id, suffix, true),
                 createMainJson(id)
         );
     }
 
-    public void addChild(ResourceLocation id, GenerateClientAssetsEventJS eventJS, String suffix){
+    public void addChild(ResourceLocation id, KubeAssetGenerator eventJS, String suffix){
         Gson gson = new Gson();
         Map<String, Object> map = Map.of(
                 "parent", createLocation(id, "", false).toString(),
@@ -81,14 +81,14 @@ public class EasyBowLikeModel {
                         "layer0", createLocation(id, suffix, false).toString()
                 )
         );
-        eventJS.add(
+        eventJS.json(
                 createLocation(id, suffix, true),
                 gson.toJsonTree(map)
         );
 
     }
 
-    public void add(ResourceLocation id, GenerateClientAssetsEventJS eventJS){
+    public void add(ResourceLocation id, KubeAssetGenerator eventJS){
         addMain(id, eventJS, "");
         for (int i = 0; i < 3; i++) {
             addChild(id, eventJS, "_pulling_" + i);

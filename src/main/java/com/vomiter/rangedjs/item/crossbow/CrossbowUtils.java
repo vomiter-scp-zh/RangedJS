@@ -13,6 +13,6 @@ public class CrossbowUtils {
     public static ResourceLocation PULLING = ResourceLocation.tryBuild("minecraft","pulling");
 
     public static int getPullingTicks(LivingEntity entity, ItemStack stack){
-        return stack.getUseDuration() - entity.getUseItemRemainingTicks();
+        return stack.getUseDuration(entity) - entity.getUseItemRemainingTicks();
     }
 }

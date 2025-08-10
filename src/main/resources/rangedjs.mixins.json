@@ -2,11 +2,24 @@
   "required": true,
   "package": "com.vomiter.rangedjs.mixin",
   "compatibilityLevel": "JAVA_21",
-  "mixins": [],
+  "plugin": "com.vomiter.rangedjs.RangedJSMixinPlugin",
+  "mixins": [
+    "AbstractArrowMixin",
+    "BowItemMixin",
+    "BowOnShootMixin",
+    "CrossbowItemMixin",
+    "CrossbowOnShootMixin",
+    "KubeAssetGeneratorMixin",
+    "LivingEntityMixin",
+    "ProjectileMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "client": [
+    "AbstractClientPlayerMixin"
+  ]
 }

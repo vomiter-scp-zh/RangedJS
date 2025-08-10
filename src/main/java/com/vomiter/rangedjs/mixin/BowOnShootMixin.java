@@ -36,9 +36,10 @@ public abstract class BowOnShootMixin implements BowItemInterface {
     private float modifyPowerForTime(
             float original,
             @Local(argsOnly = true) ItemStack itemStackLocalRef,
-            @Local(argsOnly = true) int remainTick
+            @Local(argsOnly = true) int remainTick,
+            @Local(argsOnly = true) LivingEntity entity
     ){
-        float f = (float)(itemStackLocalRef.getUseDuration() - remainTick) / this.rjs$getBowAttributes().getFullChargeTick();
+        float f = (float)(itemStackLocalRef.getUseDuration(entity) - remainTick) / this.rjs$getBowAttributes().getFullChargeTick();
         f = (f * f + f * 2.0F) / 3.0F;
         if (f > 1.0F) {
             f = 1.0F;
@@ -55,6 +56,7 @@ public abstract class BowOnShootMixin implements BowItemInterface {
     }
 
 
+    /*
 
     @ModifyVariable(
             method = "releaseUsing",
@@ -65,6 +67,9 @@ public abstract class BowOnShootMixin implements BowItemInterface {
         return bl || this.rjs$getBowAttributes().isInfinity();
     }
 
+     */
+
+    /*
     @ModifyVariable(
             method = "releaseUsing",
             at = @At("STORE"),
@@ -86,6 +91,9 @@ public abstract class BowOnShootMixin implements BowItemInterface {
         return returnValue;
     }
 
+     */
+
+    /*
     @ModifyVariable(
             method = "releaseUsing",
             at = @At("STORE"),
@@ -95,6 +103,9 @@ public abstract class BowOnShootMixin implements BowItemInterface {
         return i + this.rjs$getBowAttributes().getPower();
     }
 
+     */
+
+    /*
     @ModifyVariable(
             method = "releaseUsing",
             at = @At("STORE"),
@@ -104,6 +115,9 @@ public abstract class BowOnShootMixin implements BowItemInterface {
         return i + this.rjs$getBowAttributes().getKnockBack();
     }
 
+     */
+
+    /*
     @Inject(
             method = "releaseUsing",
             at = @At(
@@ -127,4 +141,6 @@ public abstract class BowOnShootMixin implements BowItemInterface {
         this.rjs$getReleaseCallback().accept(bowReleaseContext);
         arrowRef.set(bowReleaseContext.getArrow());
     }
+
+     */
 }

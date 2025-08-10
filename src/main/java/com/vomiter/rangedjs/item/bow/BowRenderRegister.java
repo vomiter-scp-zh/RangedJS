@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.*;
-import net.minecraftforge.fml.DistExecutor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,7 +16,7 @@ public class BowRenderRegister {
     public static ResourceLocation PULLING = ResourceLocation.tryBuild("minecraft","pulling");
 
     public static int getPullingTicks(LivingEntity entity, ItemStack stack){
-        return stack.getUseDuration() - entity.getUseItemRemainingTicks();
+        return stack.getUseDuration(entity) - entity.getUseItemRemainingTicks();
     }
 
     public static ClampedItemPropertyFunction PULL_PROVIDER =
@@ -40,9 +39,5 @@ public class BowRenderRegister {
     static public void innerRegister(Item newBow){
         ItemProperties.register(newBow, PULL, PULL_PROVIDER);
         ItemProperties.register(newBow, PULLING, PULLING_PROVIDER);
-    }
-
-    static public DistExecutor.SafeRunnable register(Item newBow){
-        return () -> innerRegister(newBow);
     }
 }

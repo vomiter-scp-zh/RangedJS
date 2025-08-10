@@ -1,6 +1,6 @@
 package com.vomiter.rangedjs.item.model;
 
-import dev.latvian.mods.kubejs.client.GenerateClientAssetsEventJS;
+import dev.latvian.mods.kubejs.generator.KubeAssetGenerator;
 import it.unimi.dsi.fastutil.ints.Int2FloatMap;
 import it.unimi.dsi.fastutil.ints.Int2FloatOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
@@ -46,7 +46,7 @@ public class EasyCrossbowModel extends EasyBowLikeModel{
     }
 
     @Override
-    public void add(ResourceLocation id, GenerateClientAssetsEventJS eventJS){
+    public void add(ResourceLocation id, KubeAssetGenerator eventJS){
         super.add(id, eventJS);
         addChild(id, eventJS, "_arrow");
         addChild(id, eventJS, "_firework");

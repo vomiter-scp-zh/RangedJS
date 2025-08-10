@@ -3,16 +3,17 @@ package com.vomiter.rangedjs.mixin;
 import com.vomiter.rangedjs.item.model.EasyBowLikeModel;
 import com.vomiter.rangedjs.item.model.EasyCrossbowModel;
 import com.vomiter.rangedjs.kubejs.GenerateClientAssetsEventJSInterface;
-import dev.latvian.mods.kubejs.client.GenerateClientAssetsEventJS;
+
+import dev.latvian.mods.kubejs.generator.KubeAssetGenerator;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(value = GenerateClientAssetsEventJS.class)
-public abstract class GenerateClientAssetsEventJSMixin implements GenerateClientAssetsEventJSInterface {
+@Mixin(value = KubeAssetGenerator.class)
+public abstract class KubeAssetGeneratorMixin implements GenerateClientAssetsEventJSInterface {
 
     @Unique
-    GenerateClientAssetsEventJS rjs$this = (GenerateClientAssetsEventJS)(Object)this;
+    KubeAssetGenerator rjs$this = (KubeAssetGenerator)(Object)this;
 
     @Unique
     @Override

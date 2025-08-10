@@ -6,8 +6,8 @@ import com.vomiter.rangedjs.item.context.BowUseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.world.item.BowItem;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.loading.FMLLoader;
 
 import java.util.function.Consumer;
 
@@ -43,7 +43,9 @@ public interface BowItemInterface extends ArrowShootingInterface {
         BowProperties properties = this.rjs$getBowProperties();
         consumer.accept(properties);
         this.rjs$setBowProperties(properties);
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> BowRenderRegister.register((BowItem)this));
+        if(FMLLoader.getDist() == Dist.CLIENT){
+            BowRenderRegister.innerRegister((BowItem)this);
+        }
         return this;
     }
 }

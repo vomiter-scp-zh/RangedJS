@@ -16,6 +16,7 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ChargedProjectiles;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -37,6 +38,7 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
     @Unique
     public void rjs$setBowProperties(ArrowShootingProperties bowProperties){this.rjs$bowProperties = (CrossbowProperties) bowProperties;}
 
+    /*
     @Inject(method = "getChargeDuration", at = @At("TAIL"), cancellable = true)
     private static void modifyCharge(ItemStack crossbow, CallbackInfoReturnable<Integer> cir, @Local int quickChargeLevel){
         var crossbowItem = (CrossbowItemInterface)crossbow.getItem();
@@ -44,10 +46,11 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
                 crossbowItem.rjs$getFullChargeTick() - quickChargeLevel * 5
         );
     }
+     */
 
+    /*
     @Inject(method = "getShootingPower", at = @At("TAIL"), cancellable = true)
-    private static void modifySpeed(ItemStack crossbow, CallbackInfoReturnable<Float> cir){
-        var crossbowItem = (CrossbowItemInterface)crossbow.getItem();
+    private static void modifySpeed(ChargedProjectiles projectile, CallbackInfoReturnable<Float> cir){
         cir.setReturnValue(
                 CrossbowItem.containsChargedProjectile(crossbow, Items.FIREWORK_ROCKET) ?
                         1.6F
@@ -55,6 +58,9 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
         );
     }
 
+     */
+
+    /*
     @Inject(method = "getArrow", at = @At("TAIL"))
     private static void modifyShootArrow(
             Level level, LivingEntity livingEntity, ItemStack crossbow, ItemStack ammoItem,
@@ -88,11 +94,16 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
         ((ProjectileInterface)arrow).rangedjs$setHitBehavior(crossbowItem.rjs$getHitBehavior());
     }
 
+     */
+
+    /*
     @ModifyVariable(method="tryLoadProjectiles", at = @At("STORE"))
     private static boolean infinity(boolean bl, @Local(argsOnly = true) ItemStack crossbow){
         CrossbowItemInterface crossbowItem = (CrossbowItemInterface)crossbow.getItem();
         return crossbowItem.rjs$isInfinity()||bl;
     }
+
+     */
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void onShoot(
