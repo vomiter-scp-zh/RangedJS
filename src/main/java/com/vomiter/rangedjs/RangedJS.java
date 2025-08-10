@@ -1,13 +1,8 @@
 package com.vomiter.rangedjs;
 
 import com.mojang.logging.LogUtils;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.Item;
 import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 

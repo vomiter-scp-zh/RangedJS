@@ -5,7 +5,6 @@ import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.Item;
 import net.neoforged.fml.loading.FMLLoader;
 
 import java.util.function.Consumer;
