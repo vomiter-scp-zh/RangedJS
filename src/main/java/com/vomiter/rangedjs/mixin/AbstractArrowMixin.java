@@ -2,23 +2,40 @@ package com.vomiter.rangedjs.mixin;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
+import com.vomiter.rangedjs.item.ArrowShootingInterface;
+import com.vomiter.rangedjs.item.bow.BowItemInterface;
 import com.vomiter.rangedjs.projectile.*;
 import com.vomiter.rangedjs.projectile.hitevents.ArrowHitEntityEventJS;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.entity.EntityAccess;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
 
 @Mixin(value = AbstractArrow.class)
 public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInterface {
+
+    @Shadow @Nullable private ItemStack firedFromWeapon;
+
+    @Shadow @Nullable private List<Entity> piercedAndKilledEntities;
+
+    @Shadow public abstract byte getPierceLevel();
+
+    @Shadow protected abstract void setPierceLevel(byte pierceLevel);
 
     @Inject(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;getType()Lnet/minecraft/world/entity/EntityType;"), cancellable = true)
     private void doOnHitEntity(EntityHitResult hitResult, CallbackInfo ci, @Local LocalIntRef damage){
@@ -47,6 +64,28 @@ public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInte
         if(hitBehavior instanceof ArrowHitBehavior arrowHitBehavior){
             Optional.ofNullable(arrowHitBehavior.getPostHurtEffect()).orElse((t,u) -> {}).accept(livingEntity, (AbstractArrow) (Object)this);
         }
+    }
+
+    @ModifyVariable(method = "doKnockback", at = @At("STORE"))
+    private double modifyKnockback(double value){
+        if(this.firedFromWeapon == null) return value;
+        if(this.firedFromWeapon.getItem() instanceof ArrowShootingInterface bowItem){
+            return bowItem.rjs$getKnockBack() + value;
+        }
+        return value;
+    }
+
+    @Inject(method="onHitEntity", at=@At("HEAD"))
+    private void modifyPierceLevel(EntityHitResult result, CallbackInfo ci){
+        if(this.firedFromWeapon == null) return;
+        if(this.piercedAndKilledEntities != null) return;
+        if(this.firedFromWeapon.getItem() instanceof ArrowShootingInterface bowItem){
+            this.setPierceLevel(
+                    (byte)(bowItem.rjs$getBowAttributes().getPierce() + this.getPierceLevel())
+            );
+        }
+
+
     }
 
 }

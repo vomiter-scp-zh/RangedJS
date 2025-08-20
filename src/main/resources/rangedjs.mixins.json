@@ -11,7 +11,8 @@
     "CrossbowOnShootMixin",
     "KubeAssetGeneratorMixin",
     "LivingEntityMixin",
-    "ProjectileMixin"
+    "ProjectileMixin",
+    "ProjectileWeaponItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

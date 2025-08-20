@@ -1,15 +1,22 @@
 package com.vomiter.rangedjs.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.rangedjs.item.ArrowShootingProperties;
 import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import com.vomiter.rangedjs.item.crossbow.CrossbowItemInterface;
 import com.vomiter.rangedjs.item.crossbow.CrossbowProperties;
+import com.vomiter.rangedjs.projectile.ProjectileInterface;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.ChargedProjectiles;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -30,72 +37,46 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
     @Unique
     public void rjs$setBowProperties(ArrowShootingProperties bowProperties){this.rjs$bowProperties = (CrossbowProperties) bowProperties;}
 
-    /*
-    @Inject(method = "getChargeDuration", at = @At("TAIL"), cancellable = true)
-    private static void modifyCharge(ItemStack crossbow, CallbackInfoReturnable<Integer> cir, @Local int quickChargeLevel){
-        var crossbowItem = (CrossbowItemInterface)crossbow.getItem();
-        cir.setReturnValue(
-                crossbowItem.rjs$getFullChargeTick() - quickChargeLevel * 5
-        );
-    }
-     */
-
-    /*
-    @Inject(method = "getShootingPower", at = @At("TAIL"), cancellable = true)
-    private static void modifySpeed(ChargedProjectiles projectile, CallbackInfoReturnable<Float> cir){
-        cir.setReturnValue(
-                CrossbowItem.containsChargedProjectile(crossbow, Items.FIREWORK_ROCKET) ?
-                        1.6F
-                        : crossbowItem.rjs$getArrowSpeedScale()
-        );
+    @ModifyExpressionValue(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/CrossbowItem;getShootingPower(Lnet/minecraft/world/item/component/ChargedProjectiles;)F"))
+    private static float modifySpeed(float original, @Local ChargedProjectiles chargedProjectiles,
+                                     @Local ItemStack itemStack
+    ){
+        return chargedProjectiles.contains(Items.FIREWORK_ROCKET) ? 1.6F : ((CrossbowItemInterface)itemStack.getItem()).rjs$getArrowSpeedScale();
     }
 
-     */
 
-    /*
-    @Inject(method = "getArrow", at = @At("TAIL"))
-    private static void modifyShootArrow(
-            Level level, LivingEntity livingEntity, ItemStack crossbow, ItemStack ammoItem,
-            CallbackInfoReturnable<AbstractArrow> cir,
-            @Local AbstractArrow arrow
+    @ModifyExpressionValue(method = "createProjectile", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ProjectileWeaponItem;createProjectile(Lnet/minecraft/world/level/Level;Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemStack;Z)Lnet/minecraft/world/entity/projectile/Projectile;"))
+    private static Projectile modifyShootArrow(
+            Projectile original, @Local(argsOnly = true, ordinal = 0) ItemStack crossbow
             ){
-        if(livingEntity instanceof Player player){
+                var crossbowItem = (CrossbowItemInterface)crossbow.getItem();
+                if(original instanceof AbstractArrow arrow){
+                    arrow.setBaseDamage(crossbowItem.rjs$getBaseDamage());
+                    if(crossbowItem.rjs$getPower() > 0){
+                        arrow.setBaseDamage(arrow.getBaseDamage() + 0.5 + 0.5 * crossbowItem.rjs$getPower());
+                    }
+                    if(crossbowItem.rjs$isFlamingArrow()){
+                        arrow.setRemainingFireTicks(20 * 100);
+                    }
+                    if(crossbowItem.rjs$isNoDamage()){
+                        arrow.setBaseDamage(0);
+                    }
+                    if(crossbowItem.rjs$isInfinity()){
+                        arrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
+                    }
+                    /*
+                    arrow.setKnockback(arrow.getKnockback() + crossbowItem.rjs$getKnockBack());
+                    if(crossbowItem.rjs$getBowAttributes().getPierce() > 0) {
+                        arrow.setPierceLevel(
+                                (byte)(crossbowItem.rjs$getBowAttributes().getPierce() + arrow.getPierceLevel())
+                        );
+                    }
+                     */
+                    ((ProjectileInterface)arrow).rangedjs$setHitBehavior(crossbowItem.rjs$getHitBehavior());
 
-        }
-        var crossbowItem = (CrossbowItemInterface)crossbow.getItem();
-        arrow.setBaseDamage(crossbowItem.rjs$getBaseDamage());
-        if(crossbowItem.rjs$getPower() > 0){
-            arrow.setBaseDamage(arrow.getBaseDamage() + 0.5 + 0.5 * crossbowItem.rjs$getPower());
-        }
-        arrow.setKnockback(arrow.getKnockback() + crossbowItem.rjs$getKnockBack());
-        if(crossbowItem.rjs$isFlamingArrow()){
-            arrow.setSecondsOnFire(100);
-        }
-        if(crossbowItem.rjs$isNoDamage()){
-            arrow.setBaseDamage(0);
-        }
-        if(crossbowItem.rjs$isInfinity()){
-            arrow.pickup = AbstractArrow.Pickup.CREATIVE_ONLY;
-        }
-        if(crossbowItem.rjs$getBowAttributes().getPierce() > 0) {
-            arrow.setPierceLevel(
-                    (byte)(crossbowItem.rjs$getBowAttributes().getPierce() + arrow.getPierceLevel())
-            );
-        }
-
-        ((ProjectileInterface)arrow).rangedjs$setHitBehavior(crossbowItem.rjs$getHitBehavior());
+                }
+                return original;
     }
-
-     */
-
-    /*
-    @ModifyVariable(method="tryLoadProjectiles", at = @At("STORE"))
-    private static boolean infinity(boolean bl, @Local(argsOnly = true) ItemStack crossbow){
-        CrossbowItemInterface crossbowItem = (CrossbowItemInterface)crossbow.getItem();
-        return crossbowItem.rjs$isInfinity()||bl;
-    }
-
-     */
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void onShoot(

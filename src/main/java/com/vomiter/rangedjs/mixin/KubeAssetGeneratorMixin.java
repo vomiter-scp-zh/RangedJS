@@ -5,11 +5,12 @@ import com.vomiter.rangedjs.item.model.EasyCrossbowModel;
 import com.vomiter.rangedjs.kubejs.GenerateClientAssetsEventJSInterface;
 
 import dev.latvian.mods.kubejs.generator.KubeAssetGenerator;
+import dev.latvian.mods.kubejs.script.data.VirtualAssetPack;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(value = KubeAssetGenerator.class)
+@Mixin(value = VirtualAssetPack.class)
 public abstract class KubeAssetGeneratorMixin implements GenerateClientAssetsEventJSInterface {
 
     @Unique
