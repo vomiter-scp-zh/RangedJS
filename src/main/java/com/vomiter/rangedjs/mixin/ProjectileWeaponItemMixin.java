@@ -21,15 +21,26 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.ProjectileWeaponItem;
 import net.minecraft.world.item.enchantment.*;
 import net.minecraft.world.phys.EntityHitResult;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
 @Mixin(value = ProjectileWeaponItem.class)
 public abstract class ProjectileWeaponItemMixin {
+    @ModifyConstant(method = "getEnchantmentValue", constant = @Constant(intValue = 1))
+    private int setEnchantmentValue(int constant){
+        var self = (ProjectileWeaponItem)(Object)this;
+        if(self instanceof ArrowShootingInterface arrowShooting) return arrowShooting.rjs$getBowAttributes().getEnchantmentValue();
+        return constant;
+    }
+
     @ModifyExpressionValue(
             method = "useAmmo",
             at = @At(
