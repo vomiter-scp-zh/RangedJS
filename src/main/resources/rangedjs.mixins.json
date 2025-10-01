@@ -12,6 +12,7 @@
     "CrossbowOnShootMixin",
     "LivingEntityMixin",
     "ProjectileMixin",
+    "ProjectileWeaponItemMixin",
     "compat.archeryexp.AExpBowPropertiesMixin",
     "compat.archeryexp.BowItemBuilderMixin",
     "compat.archeryexp.BowPropertiesMixin"

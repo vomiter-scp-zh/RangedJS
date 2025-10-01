@@ -15,6 +15,18 @@ public abstract class ArrowShootingAttributes {
 
     protected boolean noDamage = false;
 
+    protected int enchantmentValue = 1;
+
+    @SuppressWarnings("unused")
+    public void enchantmentValue(int value){
+        this.enchantmentValue = value;
+    }
+
+    @HideFromJS
+    public int getEnchantmentValue(){
+        return enchantmentValue;
+    }
+
     @HideFromJS
     public int getFullChargeTick() {
         return fullChargeTick;

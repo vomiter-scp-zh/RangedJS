@@ -1,6 +1,7 @@
 package com.vomiter.rangedjs.mixin;
 
-import com.vomiter.rangedjs.projectile.*;
+import com.vomiter.rangedjs.projectile.HitBehavior;
+import com.vomiter.rangedjs.projectile.ProjectileInterface;
 import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitBlockEventJS;
 import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitEntityEventJS;
 import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitEventJS;
