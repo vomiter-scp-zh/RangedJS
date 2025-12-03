@@ -41,7 +41,10 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
     private static float modifySpeed(float original, @Local ChargedProjectiles chargedProjectiles,
                                      @Local ItemStack itemStack
     ){
-        return chargedProjectiles.contains(Items.FIREWORK_ROCKET) ? 1.6F : ((CrossbowItemInterface)itemStack.getItem()).rjs$getArrowSpeedScale();
+        if(itemStack.getItem() instanceof CrossbowItemInterface crossbow){
+            return chargedProjectiles.contains(Items.FIREWORK_ROCKET) ? 1.6F : crossbow.rjs$getArrowSpeedScale();
+        }
+        return original;
     }
 
 
@@ -49,7 +52,7 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
     private static Projectile modifyShootArrow(
             Projectile original, @Local(argsOnly = true, ordinal = 0) ItemStack crossbow
             ){
-                var crossbowItem = (CrossbowItemInterface)crossbow.getItem();
+                if(!(crossbow.getItem() instanceof CrossbowItemInterface crossbowItem)) return original;
                 if(original instanceof AbstractArrow arrow){
                     arrow.setBaseDamage(crossbowItem.rjs$getBaseDamage());
                     if(crossbowItem.rjs$getPower() > 0){

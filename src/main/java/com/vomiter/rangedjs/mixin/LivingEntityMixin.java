@@ -29,8 +29,8 @@ public class LivingEntityMixin {
                     new BowUseContext(rjs$this.level(), (Player)rjs$this, rjs$this.getUsedItemHand(), ci)
             );
         }
-        if(itemStack.getItem() instanceof CrossbowItem){
-            ((CrossbowItemInterface)itemStack.getItem()).rjs$getUseTickCallback().accept(
+        if(itemStack.getItem() instanceof CrossbowItemInterface crossbowItem){
+            crossbowItem.rjs$getUseTickCallback().accept(
                     new CrossbowUseContext(rjs$this.level(), (Player)rjs$this, rjs$this.getUsedItemHand(), ci)
             );
         }

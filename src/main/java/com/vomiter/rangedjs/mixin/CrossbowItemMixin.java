@@ -36,7 +36,10 @@ public class CrossbowItemMixin implements CrossbowItemInterface {
 
     @ModifyConstant(method = "getChargeDuration", constant = @Constant(floatValue = 1.25F))
     private static float modifyCharge(float chargeDuration, @Local(argsOnly = true) ItemStack stack){
-        return (float)(((CrossbowItemInterface)stack.getItem()).rjs$getFullChargeTick() / 20);
+        if(stack.getItem() instanceof CrossbowItemInterface crossbow){
+            return (float)(crossbow.rjs$getFullChargeTick() / 20);
+        }
+        return chargeDuration;
     }
 
 
