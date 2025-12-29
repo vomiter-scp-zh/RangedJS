@@ -14,8 +14,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.function.Predicate;
+
 @Mixin(value = CrossbowItem.class)
 public class CrossbowItemMixin implements CrossbowItemInterface {
+
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void onPull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
         CrossbowUseContext ctx = new CrossbowUseContext(level, player, hand, cir);
@@ -28,6 +31,13 @@ public class CrossbowItemMixin implements CrossbowItemInterface {
             cir.setReturnValue(InteractionResultHolder.consume(item));
         }
 
+    }
+
+    @Inject(method = "getAllSupportedProjectiles", at = @At("HEAD"), cancellable = true)
+    private void overrideAllSupportedProjectiles(CallbackInfoReturnable<Predicate<ItemStack>> cir){
+        Predicate<ItemStack> predicate = this.rjs$getBowAttributes().getAllSupportedProjectiles();
+        if(predicate == null) return;
+        cir.setReturnValue(predicate);
     }
 
 }

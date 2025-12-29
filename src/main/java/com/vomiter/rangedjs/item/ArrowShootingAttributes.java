@@ -1,7 +1,45 @@
 package com.vomiter.rangedjs.item;
-import dev.latvian.mods.rhino.util.HideFromJS;
 
-public abstract class ArrowShootingAttributes {
+import dev.latvian.mods.rhino.util.HideFromJS;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ProjectileWeaponItem;
+
+import java.util.function.Predicate;
+
+public abstract class ArrowShootingAttributes<
+        WEAPON extends ProjectileWeaponItem,
+        SELF extends ArrowShootingAttributes
+                <WEAPON, SELF>
+        >
+{
+    @SuppressWarnings("unchecked")
+    protected SELF self() {
+        return (SELF) this;
+    }
+
+
+    protected Predicate<ItemStack> supportedHeldProjectiles = null;
+    protected Predicate<ItemStack> allSupportedProjectiles = null;
+    public SELF ammo(Predicate<ItemStack> ammoPredication) {
+        this.allSupportedProjectiles = ammoPredication;
+        return self();
+    }
+    public SELF ammoHeld(Predicate<ItemStack> ammoPredication) {
+        this.supportedHeldProjectiles = ammoPredication;
+        return self();
+    }
+
+    @HideFromJS
+    public Predicate<ItemStack> getSupportedHeldProjectiles() {
+        return supportedHeldProjectiles;
+    }
+
+    @HideFromJS
+    public Predicate<ItemStack> getAllSupportedProjectiles() {
+        return allSupportedProjectiles;
+    }
+
+
     protected boolean specialInfinity = false;
     protected boolean infinity = false;
     protected boolean flamingArrow = false;
@@ -76,4 +114,5 @@ public abstract class ArrowShootingAttributes {
     public boolean isNoDamage() {
         return noDamage;
     }
+
 }

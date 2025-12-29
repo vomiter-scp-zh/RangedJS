@@ -43,7 +43,7 @@ public interface BowItemInterface extends ArrowShootingInterface {
         BowProperties properties = this.rjs$getBowProperties();
         consumer.accept(properties);
         this.rjs$setBowProperties(properties);
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> BowRenderRegister.register((BowItem)this));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> BowRenderRegister.register((BowItem)this));
         return this;
     }
 }
