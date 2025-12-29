@@ -44,7 +44,7 @@ public interface CrossbowItemInterface extends ArrowShootingInterface {
         CrossbowProperties properties = this.rjs$getBowProperties();
         consumer.accept(properties);
         this.rjs$setBowProperties(properties);
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> CrossbowRenderRegister.register((Item)this));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> CrossbowRenderRegister.register((Item)this));
         return this;
     }
 }

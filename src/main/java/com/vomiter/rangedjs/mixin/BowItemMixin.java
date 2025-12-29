@@ -12,13 +12,17 @@ import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.function.Predicate;
+
 @Mixin(value = BowItem.class)
 public abstract class BowItemMixin implements BowItemInterface {
+
     @Unique
     private BowProperties rjs$bowProperties = new BowProperties();
 
@@ -40,5 +44,12 @@ public abstract class BowItemMixin implements BowItemInterface {
             player.startUsingItem(hand);
             cir.setReturnValue(InteractionResultHolder.consume(item));
         }
+    }
+
+    @Inject(method = "getAllSupportedProjectiles", at = @At("HEAD"), cancellable = true)
+    private void overrideAllSupportedProjectiles(CallbackInfoReturnable<Predicate<ItemStack>> cir){
+        Predicate<ItemStack> predicate = this.rjs$getBowAttributes().getAllSupportedProjectiles();
+        if(predicate == null) return;
+        cir.setReturnValue(predicate);
     }
 }

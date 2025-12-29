@@ -32,7 +32,7 @@ public class CrossbowItemBuilder extends ItemBuilder {
     public Item createObject() {
         CrossbowItem newCrossbow = new CrossbowItem(createItemProperties());
         ((CrossbowItemInterface)newCrossbow).rjs$setBowProperties(crossbowProperties);
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> CrossbowRenderRegister.register(newCrossbow));
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> CrossbowRenderRegister.register(newCrossbow));
         if(anim == null){
             anim = UseAnim.CROSSBOW;
         }
