@@ -19,8 +19,7 @@
   ],
   "client": [
     "AbstractClientPlayerMixin",
-    "GenerateClientAssetsEventJSMixin",
-    "compat.archeryexp.ArcheryExpBarMixin"
+    "GenerateClientAssetsEventJSMixin"
   ],
   "injectors": {
     "defaultRequire": 1

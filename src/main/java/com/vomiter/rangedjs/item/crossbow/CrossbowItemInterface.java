@@ -37,6 +37,9 @@ public interface CrossbowItemInterface extends ArrowShootingInterface {
         return rjs$getUseBehavior().useCallback;
     }
 
+    @HideFromJS
+    default int rjs$getQuickChargeFactor(){return rjs$getBowAttributes().getQuickChargeFactor();}
+
 
     @RemapForJS("crossbow")
     @SuppressWarnings("unused")

@@ -4,10 +4,10 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.vomiter.rangedjs.item.ArrowShootingInterface;
 import net.minecraft.client.player.LocalPlayer;
-import org.infernalstudios.archeryexp.client.ArrowHudThing;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
+/*
 @Mixin(value = ArrowHudThing.class)
 public class ArcheryExpBarMixin {
     @ModifyExpressionValue(
@@ -27,3 +27,5 @@ public class ArcheryExpBarMixin {
         return original;
     }
 }
+
+ */

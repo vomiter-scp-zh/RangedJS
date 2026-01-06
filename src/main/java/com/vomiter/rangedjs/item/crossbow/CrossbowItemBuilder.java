@@ -21,7 +21,7 @@ public class CrossbowItemBuilder extends ItemBuilder {
         log.debug("RangedJS register a crossbow:{}", i.toString());
     }
 
-    @Info("To customize the bow.")
+    @Info("To customize the crossbow.")
     @SuppressWarnings("unused")
     public CrossbowItemBuilder crossbow(Consumer<CrossbowProperties> b){
         b.accept(crossbowProperties);

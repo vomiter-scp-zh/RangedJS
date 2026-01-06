@@ -3,11 +3,13 @@ package com.vomiter.rangedjs.item.crossbow;
 import com.vomiter.rangedjs.item.ArrowShootingAttributes;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.HideFromJS;
+import net.minecraft.world.item.CrossbowItem;
 
-public class CrossbowAttributes extends ArrowShootingAttributes {
+public class CrossbowAttributes extends ArrowShootingAttributes<CrossbowItem, CrossbowAttributes> {
     protected int fullChargeTick = CrossbowUtils.defaultFullChargeTick;
     protected double arrowDamage = CrossbowUtils.defaultArrowDamage;
     protected float arrowSpeedScale = CrossbowUtils.defaultSpeedScale;
+    protected int quickChargeFactor = CrossbowUtils.defaultQuickChargeFactor;
 
     @Override
     @HideFromJS
@@ -26,6 +28,12 @@ public class CrossbowAttributes extends ArrowShootingAttributes {
     public float getArrowSpeedScale() {
         return arrowSpeedScale;
     }
+
+    @HideFromJS
+    public int getQuickChargeFactor() {
+        return quickChargeFactor;
+    }
+
 
     public CrossbowAttributes(){}
 
@@ -55,12 +63,21 @@ public class CrossbowAttributes extends ArrowShootingAttributes {
         return this;
     }
 
-    @Info("Modify the tick counts taken to fully charge this crossbow. The default value is 25 ticks")
+    @Info("Modify the tick counts taken to fully charge this crossbow. The default value is 25 ticks. You may input a second integer to change how many ticks each level of quickdraw enchantment will cause on this crossbow.")
     @SuppressWarnings("unused")
     public CrossbowAttributes fullChargeTick(int t){
         this.fullChargeTick = t;
         return this;
     }
+
+    @Info("Modify the tick counts taken to fully charge this crossbow. The default value is 25 ticks You may input a second integer to change how many ticks each level of quickdraw enchantment will cause on this crossbow.")
+    @SuppressWarnings("unused")
+    public CrossbowAttributes fullChargeTick(int t, int q){
+        this.fullChargeTick = t;
+        this.quickChargeFactor = q;
+        return this;
+    }
+
 
     @HideFromJS
     @SuppressWarnings("unused")
@@ -88,11 +105,13 @@ public class CrossbowAttributes extends ArrowShootingAttributes {
         return this;
     }
 
-    @Info("Add native power enchantment-like buff to the bow.")
+    @Info("Add native power enchantment-like buff to the crossbow.")
     @SuppressWarnings("unused")
     public CrossbowAttributes power(int i){
         this.power = i;
         return this;
     }
+
+
 
 }

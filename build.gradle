@@ -106,7 +106,8 @@ dependencies {
     jarJar            "io.github.llamalad7:mixinextras-forge:[0.4.1,)"
 
     implementation fg.deobf("curse.maven:probejs-585406:5227399")
-    implementation fg.deobf("curse.maven:archery-expansion-1164945:6424928")
+    //implementation fg.deobf("curse.maven:archery-expansion-1164945:6424928")
+    implementation fg.deobf("curse.maven:archery-expansion-1164945:7171000")
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

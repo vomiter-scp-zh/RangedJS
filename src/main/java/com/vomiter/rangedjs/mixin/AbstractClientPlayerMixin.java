@@ -7,15 +7,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import org.apache.logging.log4j.LogManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
@@ -27,12 +25,18 @@ public abstract class AbstractClientPlayerMixin extends Player{
         super(p_250508_, p_250289_, p_251702_, p_252153_);
     }
 
-    @Unique
-    @ModifyConstant(method="getFieldOfViewModifier", constant = @Constant(floatValue = 20))
-    private float modifyPullTickDivider(float constant){
-        Item item = this.getUseItem().getItem();
-        if(!(item instanceof BowItem)) return 20.0F;
-        return ((BowItemInterface)item).rjs$getBowAttributes().getFullChargeTick();
+    @Redirect(
+            method = "getFieldOfViewModifier",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/ItemStack;is(Lnet/minecraft/world/item/Item;)Z"
+            )
+    )
+    private boolean skipVanillaBowFovShrink(ItemStack stack, Item item) {
+        if (item == Items.BOW) {
+            return false;
+        }
+        return stack.is(item);
     }
 
     @Unique
@@ -41,7 +45,7 @@ public abstract class AbstractClientPlayerMixin extends Player{
         float f = cir.getReturnValue();
         if(!this.isUsingItem()) return;
         Item useItem = this.useItem.getItem();
-        if((useItem instanceof BowItem) && !useItem.equals(Items.BOW)){
+        if((useItem instanceof BowItem)){
             int fullChargeTicks = ((BowItemInterface)useItem).rjs$getBowAttributes().getFullChargeTick();
             int i = this.getTicksUsingItem();
             float f1 = (float)i / fullChargeTicks;

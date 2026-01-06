@@ -40,7 +40,7 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
     private static void modifyCharge(ItemStack crossbow, CallbackInfoReturnable<Integer> cir, @Local int quickChargeLevel){
         if(crossbow.getItem() instanceof CrossbowItemInterface crossbowItem){
             cir.setReturnValue(
-                    crossbowItem.rjs$getFullChargeTick() - quickChargeLevel * 5
+                    crossbowItem.rjs$getFullChargeTick() - quickChargeLevel * crossbowItem.rjs$getQuickChargeFactor()
             );
         }
     }
