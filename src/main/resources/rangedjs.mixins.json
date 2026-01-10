@@ -10,11 +10,12 @@
     "BowOnShootMixin",
     "CrossbowItemMixin",
     "CrossbowOnShootMixin",
+    "Item_IsValidRepairItemMixin",
+    "Item_RepairFieldMixin",
     "LivingEntityMixin",
     "ProjectileMixin",
     "ProjectileWeaponItemMixin",
     "compat.archeryexp.AExpBowPropertiesMixin",
-    "compat.archeryexp.BowItemBuilderMixin",
     "compat.archeryexp.BowPropertiesMixin"
   ],
   "client": [

@@ -1,43 +1,48 @@
 package com.vomiter.rangedjs.item.crossbow;
 
-import dev.latvian.mods.kubejs.item.ItemBuilder;
+import com.vomiter.rangedjs.item.ProjectileWeaponItemBuilder;
 import dev.latvian.mods.kubejs.typings.Info;
+import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CrossbowItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.UseAnim;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.function.Consumer;
 
-public class CrossbowItemBuilder extends ItemBuilder {
-    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(CrossbowItemBuilder.class);
-    transient CrossbowProperties crossbowProperties = new CrossbowProperties();
+public class CrossbowItemBuilder extends ProjectileWeaponItemBuilder<CrossbowItemBuilder, CrossbowItem, CrossbowProperties> {
 
-    public CrossbowItemBuilder(ResourceLocation i) {
-        super(i);
-        log.debug("RangedJS register a crossbow:{}", i.toString());
+    public CrossbowItemBuilder(ResourceLocation id) {
+        super(id, new CrossbowProperties());
     }
+
+    @Override protected CrossbowItemBuilder self() { return this; }
 
     @Info("To customize the crossbow.")
-    @SuppressWarnings("unused")
-    public CrossbowItemBuilder crossbow(Consumer<CrossbowProperties> b){
-        b.accept(crossbowProperties);
-        return this;
+    public CrossbowItemBuilder crossbow(Consumer<CrossbowProperties> b) {
+        return config(b);
     }
 
+    @HideFromJS
     @Override
-    public Item createObject() {
-        CrossbowItem newCrossbow = new CrossbowItem(createItemProperties());
-        ((CrossbowItemInterface)newCrossbow).rjs$setBowProperties(crossbowProperties);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> CrossbowRenderRegister.register(newCrossbow));
-        if(anim == null){
-            anim = UseAnim.CROSSBOW;
-        }
-        return newCrossbow;
+    protected CrossbowItem createItem() {
+        return new CrossbowItem(createItemProperties());
+    }
+
+    @HideFromJS
+    @Override
+    protected void attachProperties(CrossbowItem item, CrossbowProperties props) {
+        ((CrossbowItemInterface)item).rjs$setProperties(props);
+    }
+
+    @HideFromJS
+    @Override
+    protected void registerClient(CrossbowItem item) {
+        CrossbowRenderRegister.register(item);
+    }
+
+    @HideFromJS
+    @Override
+    protected UseAnim defaultUseAnim() {
+        return UseAnim.CROSSBOW;
     }
 }
-
-

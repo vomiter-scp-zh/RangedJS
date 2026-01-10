@@ -25,7 +25,7 @@ public class BowRenderRegister {
                 if (entity == null) return 0.0F;
                 if (!entity.getUseItem().equals(stack)) return 0.0F;
                 Item item = stack.getItem();
-                return (float) getPullingTicks(entity, stack) / ((ArrowShootingInterface)item).rjs$getBowAttributes().getFullChargeTick();
+                return (float) getPullingTicks(entity, stack) / ((BowItemInterface)item).rjs$getAttributes().getFullChargeTick();
             };
 
 

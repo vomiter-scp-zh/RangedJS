@@ -3,6 +3,7 @@ package com.vomiter.rangedjs.mixin;
 import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import com.vomiter.rangedjs.item.crossbow.CrossbowItemInterface;
+import com.vomiter.rangedjs.item.crossbow.CrossbowProperties;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -17,7 +19,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.function.Predicate;
 
 @Mixin(value = CrossbowItem.class)
-public class CrossbowItemMixin implements CrossbowItemInterface {
+public abstract class CrossbowItemMixin implements CrossbowItemInterface {
+
+    @Unique
+    private CrossbowProperties rangedjs$props = new CrossbowProperties();
+
+    @Override
+    public void rjs$setProperties(CrossbowProperties props) {
+        this.rangedjs$props = (props == null) ? new CrossbowProperties() : props;
+    }
+
+    @Override
+    public CrossbowProperties rjs$getProperties() {
+        return this.rangedjs$props;
+    }
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void onPull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
@@ -35,9 +50,8 @@ public class CrossbowItemMixin implements CrossbowItemInterface {
 
     @Inject(method = "getAllSupportedProjectiles", at = @At("HEAD"), cancellable = true)
     private void overrideAllSupportedProjectiles(CallbackInfoReturnable<Predicate<ItemStack>> cir){
-        Predicate<ItemStack> predicate = this.rjs$getBowAttributes().getAllSupportedProjectiles();
+        Predicate<ItemStack> predicate = this.rjs$getAttributes().getAllSupportedProjectiles();
         if(predicate == null) return;
         cir.setReturnValue(predicate);
     }
-
 }

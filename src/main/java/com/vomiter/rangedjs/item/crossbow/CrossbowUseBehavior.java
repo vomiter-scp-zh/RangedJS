@@ -3,21 +3,25 @@ package com.vomiter.rangedjs.item.crossbow;
 
 import com.vomiter.rangedjs.item.UseBehavior;
 import com.vomiter.rangedjs.item.context.CrossbowUseContext;
-import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.HideFromJS;
 
 import java.util.function.Consumer;
 
-public class CrossbowUseBehavior extends UseBehavior {
+public class CrossbowUseBehavior implements UseBehavior<CrossbowUseContext, Void> {
     protected Consumer<CrossbowUseContext> useCallback = (t)->{};
-    protected Consumer<UseContext> useTickCallback = (t)->{};
+    protected Consumer<CrossbowUseContext> useTickCallback = (t)->{};
     protected Consumer<CrossbowUseContext> shootCallback = (t)->{};
     protected CrossbowUseBehavior(){}
 
     @HideFromJS
-    public Consumer<UseContext> getUseTickCallback() {
+    public Consumer<CrossbowUseContext> getUseTickCallback() {
         return useTickCallback;
+    }
+
+    @Override
+    public Consumer<Void> getReleaseCallback() {
+        return null;
     }
 
     @HideFromJS
@@ -39,7 +43,7 @@ public class CrossbowUseBehavior extends UseBehavior {
 
     @Info("The event fires when the player is pulling the bow.")
     @SuppressWarnings("unused")
-    public CrossbowUseBehavior pullTick(Consumer<UseContext> c){
+    public CrossbowUseBehavior pullTick(Consumer<CrossbowUseContext> c){
         useTickCallback = c;
         return this;
     }

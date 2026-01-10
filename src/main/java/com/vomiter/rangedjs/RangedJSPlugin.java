@@ -1,5 +1,6 @@
 package com.vomiter.rangedjs;
 
+import com.vomiter.rangedjs.compat.archeryexp.ArcheryExpCompat;
 import com.vomiter.rangedjs.item.bow.BowItemBuilder;
 
 import com.vomiter.rangedjs.item.crossbow.CrossbowItemBuilder;
@@ -7,6 +8,7 @@ import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.registry.RegistryInfo;
 
 import com.mojang.logging.LogUtils;
+import net.minecraftforge.fml.ModList;
 import org.slf4j.Logger;
 
 
@@ -16,6 +18,9 @@ public class RangedJSPlugin extends KubeJSPlugin{
 
     @Override
     public void init() {
+        if (ModList.get().isLoaded("archeryexp")) {
+            ArcheryExpCompat.init();
+        }
         RegistryInfo.ITEM.addType("bow", BowItemBuilder.class, BowItemBuilder::new);
         RegistryInfo.ITEM.addType("crossbow", CrossbowItemBuilder.class, CrossbowItemBuilder::new);
     }

@@ -5,6 +5,7 @@ import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.world.item.CrossbowItem;
 
+
 public class CrossbowAttributes extends ArrowShootingAttributes<CrossbowItem, CrossbowAttributes> {
     protected int fullChargeTick = CrossbowUtils.defaultFullChargeTick;
     protected double arrowDamage = CrossbowUtils.defaultArrowDamage;

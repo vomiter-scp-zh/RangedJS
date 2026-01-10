@@ -17,7 +17,7 @@ public class ProjectileWeaponItemMixin {
     @ModifyConstant(method = "getEnchantmentValue", constant = @Constant(intValue = 1))
     private int setEnchantmentValue(int constant){
         var self = (ProjectileWeaponItem)(Object)this;
-        if(self instanceof ArrowShootingInterface arrowShooting) return arrowShooting.rjs$getBowAttributes().getEnchantmentValue();
+        if(self instanceof ArrowShootingInterface arrowShooting) return arrowShooting.rjs$getAttributes().getEnchantmentValue();
         return constant;
     }
 
@@ -25,7 +25,7 @@ public class ProjectileWeaponItemMixin {
     private void overrideAllSupportedProjectiles(CallbackInfoReturnable<Predicate<ItemStack>> cir){
         var self = (ProjectileWeaponItem)(Object)this;
         if(!(self instanceof ArrowShootingInterface arrowShooting)) return;
-        Predicate<ItemStack> predicate = arrowShooting.rjs$getBowAttributes().getSupportedHeldProjectiles();
+        Predicate<ItemStack> predicate = arrowShooting.rjs$getAttributes().getSupportedHeldProjectiles();
         if(predicate == null) return;
         cir.setReturnValue(predicate);
     }

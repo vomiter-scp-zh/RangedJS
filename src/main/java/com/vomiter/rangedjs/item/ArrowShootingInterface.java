@@ -3,66 +3,61 @@ package com.vomiter.rangedjs.item;
 import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.rhino.util.HideFromJS;
 
-public interface ArrowShootingInterface extends ItemInterface {
+import java.util.function.Consumer;
+
+public interface ArrowShootingInterface<
+        P extends ArrowShootingProperties<A, UB>,
+        A extends ArrowShootingAttributes,
+        UB extends UseBehavior<UC, RC>,
+        UC,
+        RC
+        > extends ItemInterface {
+
+    // 由 mixin 實作：塞/取 properties
+    @HideFromJS
+    void rjs$setProperties(P props);
 
     @HideFromJS
-    default void rjs$setBowProperties(ArrowShootingProperties b){}
+    P rjs$getProperties();
+
+    // 下面開始全部都可以共用，不用各種 cast
+    @HideFromJS
+    default UB rjs$getUseBehavior() {
+        return rjs$getProperties().getUseBehavior();
+    }
 
     @HideFromJS
-    ArrowShootingProperties rjs$getBowProperties();
-
-    @Override
-    @HideFromJS
-    default UseBehavior rjs$getUseBehavior(){return rjs$getBowProperties().getUseBehavior();}
+    default A rjs$getAttributes() {
+        return rjs$getProperties().getAttributes();
+    }
 
     @HideFromJS
-    default ArrowShootingAttributes rjs$getBowAttributes(){return rjs$getBowProperties().getAttributes();}
+    default HitBehavior rjs$getHitBehavior() {
+        return rjs$getProperties().getHitBehavior();
+    }
 
     @HideFromJS
-    default HitBehavior rjs$getHitBehavior(){return rjs$getBowProperties().getHitBehavior();}
-
-    default int rjs$getFullChargeTick() {
-        return rjs$getBowAttributes().getFullChargeTick();
+    default Consumer<UC> rjs$getUseCallback() {
+        return rjs$getUseBehavior().getUseCallback();
     }
 
-    @SuppressWarnings("unused")
-    default double rjs$getBaseDamage() {
-        return rjs$getBowAttributes().getBaseDamage();
+    @HideFromJS
+    default Consumer<UC> rjs$getUseTickCallback() {
+        return rjs$getUseBehavior().getUseTickCallback();
     }
 
-    @SuppressWarnings("unused")
-    default int rjs$getPower() {
-        return rjs$getBowAttributes().getPower();
+    @HideFromJS
+    default Consumer<RC> rjs$getReleaseCallback() {
+        return rjs$getUseBehavior().getReleaseCallback();
     }
 
-    @SuppressWarnings("unused")
-    default int rjs$getKnockBack() {
-        return rjs$getBowAttributes().getKnockBack();
-    }
-
-    @SuppressWarnings("unused")
-    default float rjs$getArrowSpeedScale() {
-        return rjs$getBowAttributes().getArrowSpeedScale();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean rjs$isFlamingArrow() {
-        return rjs$getBowAttributes().isFlamingArrow();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean rjs$isInfinity() {
-        return rjs$getBowAttributes().isInfinity();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean rjs$isSpecialInfinity() {
-        return rjs$getBowAttributes().isSpecialInfinity();
-    }
-
-    @SuppressWarnings("unused")
-    default boolean rjs$isNoDamage() {
-        return rjs$getBowAttributes().isNoDamage();
-    }
-
+    default int rjs$getFullChargeTick() { return rjs$getAttributes().getFullChargeTick(); }
+    default double rjs$getBaseDamage() { return rjs$getAttributes().getBaseDamage(); }
+    default int rjs$getPower() { return rjs$getAttributes().getPower(); }
+    default int rjs$getKnockBack() { return rjs$getAttributes().getKnockBack(); }
+    default float rjs$getArrowSpeedScale() { return rjs$getAttributes().getArrowSpeedScale(); }
+    default boolean rjs$isFlamingArrow() { return rjs$getAttributes().isFlamingArrow(); }
+    default boolean rjs$isInfinity() { return rjs$getAttributes().isInfinity(); }
+    default boolean rjs$isSpecialInfinity() { return rjs$getAttributes().isSpecialInfinity(); }
+    default boolean rjs$isNoDamage() { return rjs$getAttributes().isNoDamage(); }
 }

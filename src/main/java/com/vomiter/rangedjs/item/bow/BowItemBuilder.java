@@ -1,44 +1,49 @@
 package com.vomiter.rangedjs.item.bow;
 
-import dev.latvian.mods.kubejs.item.ItemBuilder;
+import com.vomiter.rangedjs.item.ProjectileWeaponItemBuilder;
 import dev.latvian.mods.kubejs.typings.Info;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BowItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.UseAnim;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.function.Consumer;
 
-public class BowItemBuilder extends ItemBuilder {
-    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(BowItemBuilder.class);
-    transient BowProperties bowProperties = new BowProperties();
+public class BowItemBuilder extends ProjectileWeaponItemBuilder<BowItemBuilder, BowItem, BowProperties> {
 
-    public BowItemBuilder(ResourceLocation i) {
-        super(i);
-        log.debug("RangedJS register a bow:{}", i.toString());
+    public BowItemBuilder(ResourceLocation id) {
+        super(id, new BowProperties());
     }
 
+    @Override protected BowItemBuilder self() { return this; }
+
     @Info("To customize the bow.")
-    @SuppressWarnings("unused")
-    public BowItemBuilder bow(Consumer<BowProperties> b){
-        b.accept(bowProperties);
-        return this;
+    public BowItemBuilder bow(Consumer<BowProperties> b) {
+        return config(b);
     }
 
     @Override
-    public Item createObject() {
-        BowItem newBow = new BowItem(createItemProperties());
-        ((BowItemInterface)newBow).rjs$setBowProperties(bowProperties);
-        bowProperties.setItem(newBow);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> BowRenderRegister.register(newBow));
-        if(anim == null){
-            anim = UseAnim.BOW;
-        }
-        return newBow;
+    protected BowItem createItem() {
+        return new BowItem(createItemProperties());
+    }
+
+    @Override
+    protected void attachProperties(BowItem item, BowProperties props) {
+        ((BowItemInterface) item).rjs$setProperties(props);
+    }
+
+    @Override
+    protected void onItemCreated(BowItem item, BowProperties props) {
+        props.setItem(item);
+    }
+
+    @Override
+    protected void registerClient(BowItem item) {
+        BowRenderRegister.register(item);
+    }
+
+    @Override
+    protected UseAnim defaultUseAnim() {
+        return UseAnim.BOW;
     }
 }
-
 

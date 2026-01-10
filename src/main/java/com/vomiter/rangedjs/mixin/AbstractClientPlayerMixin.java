@@ -46,7 +46,7 @@ public abstract class AbstractClientPlayerMixin extends Player{
         if(!this.isUsingItem()) return;
         Item useItem = this.useItem.getItem();
         if((useItem instanceof BowItem)){
-            int fullChargeTicks = ((BowItemInterface)useItem).rjs$getBowAttributes().getFullChargeTick();
+            int fullChargeTicks = ((BowItemInterface)useItem).rjs$getAttributes().getFullChargeTick();
             int i = this.getTicksUsingItem();
             float f1 = (float)i / fullChargeTicks;
             if (f1 > 1.0F) {

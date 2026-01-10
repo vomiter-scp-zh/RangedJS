@@ -1,19 +1,16 @@
 package com.vomiter.rangedjs.item;
 
-import com.vomiter.rangedjs.item.context.ReleaseContext;
-import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
 
 import java.util.function.Consumer;
 
-public abstract class UseBehavior {
+public interface UseBehavior<UC, RC> {
     @HideFromJS
-    Consumer<? extends UseContext> getUseCallback(){return (t) -> {};}
+    Consumer<UC> getUseCallback();
 
     @HideFromJS
-    Consumer<? extends UseContext> getUseTickCallback(){return (t) -> {};}
+    Consumer<UC> getUseTickCallback();
 
     @HideFromJS
-    Consumer<? extends ReleaseContext> getReleaseCallback(){return (t) -> {};}
-
+    Consumer<RC> getReleaseCallback();
 }
