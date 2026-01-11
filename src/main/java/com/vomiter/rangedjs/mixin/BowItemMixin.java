@@ -17,6 +17,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.function.Predicate;
+
 @Mixin(value = BowItem.class)
 public abstract class BowItemMixin implements BowItemInterface {
     @Unique
@@ -24,11 +26,11 @@ public abstract class BowItemMixin implements BowItemInterface {
 
     @Override
     @Unique
-    public BowProperties rjs$getBowProperties(){return this.rjs$bowProperties;}
+    public BowProperties rjs$getProperties(){return this.rjs$bowProperties;}
 
     @Override
     @Unique
-    public void rjs$setBowProperties(ArrowShootingProperties bowProperties){this.rjs$bowProperties = (BowProperties) bowProperties;}
+    public void rjs$setProperties(BowProperties bowProperties){this.rjs$bowProperties = (BowProperties) bowProperties;}
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void beforePull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
@@ -41,4 +43,12 @@ public abstract class BowItemMixin implements BowItemInterface {
             cir.setReturnValue(InteractionResultHolder.consume(item));
         }
     }
+
+    @Inject(method = "getAllSupportedProjectiles", at = @At("HEAD"), cancellable = true)
+    private void overrideAllSupportedProjectiles(CallbackInfoReturnable<Predicate<ItemStack>> cir){
+        Predicate<ItemStack> predicate = this.rjs$getAttributes().getAllSupportedProjectiles();
+        if(predicate == null) return;
+        cir.setReturnValue(predicate);
+    }
+
 }

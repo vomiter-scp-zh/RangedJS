@@ -33,7 +33,7 @@ public abstract class ProjectileWeaponItemMixin {
     @ModifyConstant(method = "getEnchantmentValue", constant = @Constant(intValue = 1))
     private int setEnchantmentValue(int constant){
         var self = (ProjectileWeaponItem)(Object)this;
-        if(self instanceof ArrowShootingInterface arrowShooting) return arrowShooting.rjs$getBowAttributes().getEnchantmentValue();
+        if(self instanceof ArrowShootingInterface arrowShooting) return arrowShooting.rjs$getAttributes().getEnchantmentValue();
         return constant;
     }
 

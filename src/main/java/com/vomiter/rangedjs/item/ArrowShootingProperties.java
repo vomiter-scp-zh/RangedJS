@@ -4,12 +4,12 @@ import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.world.item.Item;
 
-public interface ArrowShootingProperties {
+public interface ArrowShootingProperties<A extends ArrowShootingAttributes, UB> {
     @HideFromJS
-    UseBehavior getUseBehavior();
+    UB getUseBehavior();
 
     @HideFromJS
-    ArrowShootingAttributes getAttributes();
+    A getAttributes();
 
     @HideFromJS
     HitBehavior getHitBehavior();

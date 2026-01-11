@@ -9,7 +9,7 @@ import dev.latvian.mods.rhino.util.HideFromJS;
 
 import java.util.function.Consumer;
 
-public class BowUseBehavior extends UseBehavior {
+public class BowUseBehavior implements UseBehavior<BowUseContext, BowReleaseContext> {
     protected Consumer<BowReleaseContext> releaseCallback = (t) -> {};
     protected Consumer<BowUseContext> useCallback = (t)->{};
     protected Consumer<BowUseContext> useTickCallback = (t)->{};

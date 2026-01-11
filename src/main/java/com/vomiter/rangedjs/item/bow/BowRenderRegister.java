@@ -24,7 +24,7 @@ public class BowRenderRegister {
                 if (entity == null) return 0.0F;
                 if (!entity.getUseItem().equals(stack)) return 0.0F;
                 Item item = stack.getItem();
-                return (float) getPullingTicks(entity, stack) / ((ArrowShootingInterface)item).rjs$getBowAttributes().getFullChargeTick();
+                return (float) getPullingTicks(entity, stack) / ((BowItemInterface)item).rjs$getFullChargeTick();
             };
 
 
@@ -36,7 +36,7 @@ public class BowRenderRegister {
                             : 0.0F
             );
 
-    static public void innerRegister(Item newBow){
+    static public void register(Item newBow){
         ItemProperties.register(newBow, PULL, PULL_PROVIDER);
         ItemProperties.register(newBow, PULLING, PULLING_PROVIDER);
     }

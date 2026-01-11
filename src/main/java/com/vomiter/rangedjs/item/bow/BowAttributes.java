@@ -3,8 +3,9 @@ package com.vomiter.rangedjs.item.bow;
 import com.vomiter.rangedjs.item.ArrowShootingAttributes;
 import dev.latvian.mods.kubejs.typings.Info;
 import dev.latvian.mods.rhino.util.HideFromJS;
+import net.minecraft.world.item.BowItem;
 
-public class BowAttributes extends ArrowShootingAttributes {
+public class BowAttributes extends ArrowShootingAttributes<BowItem, BowAttributes> {
     protected int fullChargeTick = BowUtils.defaultFullChargeTick;
     protected double baseDamage = BowUtils.defaultBaseDamage;
     protected float arrowSpeedScale = BowUtils.defaultSpeedScale;

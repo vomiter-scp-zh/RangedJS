@@ -81,7 +81,7 @@ public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInte
         if(this.piercedAndKilledEntities != null) return;
         if(this.firedFromWeapon.getItem() instanceof ArrowShootingInterface bowItem){
             this.setPierceLevel(
-                    (byte)(bowItem.rjs$getBowAttributes().getPierce() + this.getPierceLevel())
+                    (byte)(bowItem.rjs$getAttributes().getPierce() + this.getPierceLevel())
             );
         }
 

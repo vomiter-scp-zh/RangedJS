@@ -1,22 +1,20 @@
 package com.vomiter.rangedjs.item;
 
-import com.vomiter.rangedjs.item.context.ReleaseContext;
-import com.vomiter.rangedjs.item.context.UseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
-
-import java.util.function.Consumer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.crafting.Ingredient;
 
 public interface ItemInterface {
     @HideFromJS
-    UseBehavior rjs$getUseBehavior();
+    default void rjs$setRepairIngredient(Ingredient ingredient) {}
 
     @HideFromJS
-    default Consumer<? extends UseContext> rjs$getUseCallback(){return rjs$getUseBehavior().getUseCallback();}
+    default Ingredient rjs$getRepairIngredient() { return Ingredient.EMPTY; }
 
     @HideFromJS
-    default Consumer<? extends UseContext> rjs$getUseTickCallback(){return rjs$getUseBehavior().getUseTickCallback();}
+    default void rjs$setShootSound(SoundEvent soundEvent) {}
 
     @HideFromJS
-    default Consumer<? extends ReleaseContext> rjs$getReleaseCallback(){return rjs$getUseBehavior().getReleaseCallback();}
+    default SoundEvent rjs$getShootSound() { return null; }
 
 }

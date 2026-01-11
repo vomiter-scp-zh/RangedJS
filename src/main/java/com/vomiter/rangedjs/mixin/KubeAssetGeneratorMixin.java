@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.Unique;
 public abstract class KubeAssetGeneratorMixin implements GenerateClientAssetsEventJSInterface {
 
     @Unique
-    KubeAssetGenerator rjs$this = (KubeAssetGenerator)(Object)this;
+    KubeAssetGenerator rjs$this = (KubeAssetGenerator) this;
 
     @Unique
     @Override

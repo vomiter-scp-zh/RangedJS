@@ -1,6 +1,7 @@
 package com.vomiter.rangedjs.projectile.hitevents;
 
-import dev.latvian.mods.kubejs.level.BlockContainerJS;
+import dev.latvian.mods.kubejs.level.CachedLevelBlock;
+import dev.latvian.mods.kubejs.level.LevelBlock;
 import dev.latvian.mods.kubejs.typings.Info;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -14,10 +15,9 @@ public class ProjectileHitBlockEventJS extends ProjectileHitEventJS{
         super(hitResult, projectile, ci);
     }
 
-    public BlockContainerJS getBlock(){
+    public LevelBlock getBlock(){
         BlockPos pos = ((BlockHitResult)hitResult).getBlockPos();
-        return new BlockContainerJS(getLevel(), pos
-        );
+        return new CachedLevelBlock(getLevel(), pos);
     }
 
     @Override

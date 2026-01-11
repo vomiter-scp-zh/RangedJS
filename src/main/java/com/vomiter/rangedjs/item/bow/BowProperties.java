@@ -1,7 +1,6 @@
 package com.vomiter.rangedjs.item.bow;
 
 import com.vomiter.rangedjs.item.ArrowShootingProperties;
-import com.vomiter.rangedjs.item.UseBehavior;
 import com.vomiter.rangedjs.projectile.ArrowHitBehavior;
 import com.vomiter.rangedjs.projectile.HitBehavior;
 import dev.latvian.mods.kubejs.typings.Info;
@@ -10,7 +9,7 @@ import net.minecraft.world.item.Item;
 
 import java.util.function.Consumer;
 
-public class BowProperties implements ArrowShootingProperties {
+public class BowProperties implements ArrowShootingProperties<BowAttributes, BowUseBehavior> {
     protected final BowAttributes bowAttributes = new BowAttributes();
     protected final ArrowHitBehavior hitBehavior = new ArrowHitBehavior();
     protected BowUseBehavior bowUseBehavior = new BowUseBehavior();
@@ -51,7 +50,7 @@ public class BowProperties implements ArrowShootingProperties {
     }
 
     @Override
-    public UseBehavior getUseBehavior() {
+    public BowUseBehavior getUseBehavior() {
         return bowUseBehavior;
     }
 

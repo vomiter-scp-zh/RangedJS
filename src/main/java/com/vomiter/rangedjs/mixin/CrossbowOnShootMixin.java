@@ -1,13 +1,15 @@
 package com.vomiter.rangedjs.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.vomiter.rangedjs.item.ArrowShootingProperties;
 import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import com.vomiter.rangedjs.item.crossbow.CrossbowItemInterface;
-import com.vomiter.rangedjs.item.crossbow.CrossbowProperties;
 import com.vomiter.rangedjs.projectile.ProjectileInterface;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -27,15 +29,34 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(value = CrossbowItem.class)
 public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
     @Unique
-    private CrossbowProperties rjs$bowProperties = new CrossbowProperties();
+    private SoundEvent SHOOT_SOUND;
+    public void rjs$setShootSound(SoundEvent soundEvent) {SHOOT_SOUND = soundEvent;}
+    public SoundEvent rjs$getShootSound() { return SHOOT_SOUND; }
+    @WrapOperation(
+            method = "shootProjectile",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/level/Level;playSound(Lnet/minecraft/world/entity/player/Player;DDDLnet/minecraft/sounds/SoundEvent;Lnet/minecraft/sounds/SoundSource;FF)V"
+            )
+    )
+    private void changeSoundEvent(
+            Level level,
+            Player player,
+            double x, double y, double z,
+            SoundEvent sound,
+            SoundSource source,
+            float volume,
+            float pitch,
+            Operation<Void> original
+    ) {
+        SoundEvent out = sound;
 
-    @Override
-    @Unique
-    public CrossbowProperties rjs$getBowProperties(){return this.rjs$bowProperties;}
+        SoundEvent custom = rjs$getShootSound();
+        if (custom != null) out = custom;
 
-    @Override
-    @Unique
-    public void rjs$setBowProperties(ArrowShootingProperties bowProperties){this.rjs$bowProperties = (CrossbowProperties) bowProperties;}
+        original.call(level, player, x, y, z, out, source, volume, pitch);
+    }
+
 
     @ModifyExpressionValue(method = "use", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/CrossbowItem;getShootingPower(Lnet/minecraft/world/item/component/ChargedProjectiles;)F"))
     private static float modifySpeed(float original, @Local ChargedProjectiles chargedProjectiles,

@@ -10,7 +10,7 @@ import net.minecraft.world.item.Item;
 
 import java.util.function.Consumer;
 
-public class CrossbowProperties implements ArrowShootingProperties {
+public class CrossbowProperties implements ArrowShootingProperties<CrossbowAttributes, CrossbowUseBehavior> {
     protected final CrossbowAttributes crossbowAttributes = new CrossbowAttributes();
     protected final ArrowHitBehavior arrowhitBehavior = new ArrowHitBehavior();
     protected CrossbowUseBehavior crossbowUseBehavior = new CrossbowUseBehavior();
@@ -52,7 +52,7 @@ public class CrossbowProperties implements ArrowShootingProperties {
     }
 
     @Override
-    public UseBehavior getUseBehavior() {
+    public CrossbowUseBehavior getUseBehavior() {
         return crossbowUseBehavior;
     }
 
