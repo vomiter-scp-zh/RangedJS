@@ -6,8 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.UseAnim;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,9 +74,7 @@ public abstract class ProjectileWeaponItemBuilder<
         onItemCreated(item, properties);
 
         applyRepairLogicIfNeeded(item);
-
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> registerClient(item));
-
+        if(FMLEnvironment.dist.isClient()) registerClient(item);
         if (anim == null) anim = defaultUseAnim();
         for (var h : POST_CREATE_HOOKS) {
             h.accept(this, item, properties);

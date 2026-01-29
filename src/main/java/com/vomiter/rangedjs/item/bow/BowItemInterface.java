@@ -3,11 +3,9 @@ package com.vomiter.rangedjs.item.bow;
 import com.vomiter.rangedjs.item.ArrowShootingInterface;
 import com.vomiter.rangedjs.item.context.BowReleaseContext;
 import com.vomiter.rangedjs.item.context.BowUseContext;
-import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.world.item.BowItem;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.function.Consumer;
 
@@ -24,7 +22,9 @@ public interface BowItemInterface extends ArrowShootingInterface<
         BowProperties props = rjs$getProperties();
         consumer.accept(props);
         rjs$setProperties(props);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> BowRenderRegister.register((BowItem) this));
+        if(FMLEnvironment.dist.isClient()){
+            BowRenderRegister.register((BowItem) this);
+        }
         return this;
     }
 }

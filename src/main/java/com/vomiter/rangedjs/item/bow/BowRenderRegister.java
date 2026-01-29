@@ -1,14 +1,13 @@
 package com.vomiter.rangedjs.item.bow;
 
 
-import com.vomiter.rangedjs.item.ArrowShootingInterface;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.*;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,12 +36,8 @@ public class BowRenderRegister {
                             : 0.0F
             );
 
-    static public void innerRegister(Item newBow){
+    static public void register(Item newBow){
         ItemProperties.register(newBow, PULL, PULL_PROVIDER);
         ItemProperties.register(newBow, PULLING, PULLING_PROVIDER);
-    }
-
-    static public DistExecutor.SafeRunnable register(Item newBow){
-        return () -> innerRegister(newBow);
     }
 }

@@ -5,8 +5,7 @@ import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import dev.latvian.mods.rhino.util.HideFromJS;
 import dev.latvian.mods.rhino.util.RemapForJS;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 import java.util.function.Consumer;
 
@@ -32,7 +31,7 @@ public interface CrossbowItemInterface extends ArrowShootingInterface<
         CrossbowProperties props = rjs$getProperties();
         consumer.accept(props);
         rjs$setProperties(props);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> CrossbowRenderRegister.register((Item) this));
+        if(FMLEnvironment.dist.isClient())CrossbowRenderRegister.register((Item) this);
         return this;
     }
 }
