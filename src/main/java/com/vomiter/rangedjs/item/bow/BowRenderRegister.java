@@ -1,6 +1,10 @@
 package com.vomiter.rangedjs.item.bow;
 
 
+import com.vomiter.rangedjs.item.ArrowShootingAttributes;
+import com.vomiter.rangedjs.item.ArrowShootingInterface;
+import com.vomiter.rangedjs.item.ArrowShootingProperties;
+import com.vomiter.rangedjs.item.UseBehavior;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -24,7 +28,7 @@ public class BowRenderRegister {
                 if (entity == null) return 0.0F;
                 if (!entity.getUseItem().equals(stack)) return 0.0F;
                 Item item = stack.getItem();
-                return (float) getPullingTicks(entity, stack) / ((BowItemInterface)item).rjs$getAttributes().getFullChargeTick();
+                return (float) getPullingTicks(entity, stack) / ((ArrowShootingInterface<?, ?, ?, ?, ?>)item).rjs$getAttributes().getFullChargeTick();
             };
 
 

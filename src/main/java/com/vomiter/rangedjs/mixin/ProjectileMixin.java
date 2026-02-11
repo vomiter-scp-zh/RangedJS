@@ -5,6 +5,7 @@ import com.vomiter.rangedjs.projectile.ProjectileInterface;
 import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitBlockEventJS;
 import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitEntityEventJS;
 import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitEventJS;
+import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -33,6 +34,7 @@ public class ProjectileMixin implements ProjectileInterface {
 
     @Inject(method = "onHitEntity", at = @At("HEAD"), cancellable = true)
     private void doOnHitEntity(EntityHitResult hitResult, CallbackInfo ci){
+        if((Object)this instanceof AbstractArrow) return;
         ProjectileHitEntityEventJS eventJS = new ProjectileHitEntityEventJS(hitResult, (Projectile) (Object) this, ci);
         HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
         Optional.ofNullable(hitBehavior.getHitEntity()).orElse(t->{}).accept(eventJS);
@@ -40,6 +42,7 @@ public class ProjectileMixin implements ProjectileInterface {
 
     @Inject(method = "onHitBlock", at = @At("HEAD"), cancellable = true)
     private void doOnHitBlock(BlockHitResult hitResult, CallbackInfo ci){
+        if((Object)this instanceof AbstractArrow) return;
         ProjectileHitBlockEventJS eventJS = new ProjectileHitBlockEventJS(hitResult, (Projectile) (Object) this, ci);
         HitBehavior hitBehavior = this.rangedjs$getHitBehavior();
         Optional.ofNullable(hitBehavior.getHitBlock()).orElse(t->{}).accept(eventJS);
