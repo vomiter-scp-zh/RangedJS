@@ -3,16 +3,19 @@ package com.vomiter.rangedjs.mixin;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import com.vomiter.rangedjs.item.ArrowShootingInterface;
-import com.vomiter.rangedjs.item.bow.BowItemInterface;
-import com.vomiter.rangedjs.projectile.*;
+import com.vomiter.rangedjs.projectile.ArrowHitBehavior;
+import com.vomiter.rangedjs.projectile.HitBehavior;
+import com.vomiter.rangedjs.projectile.ProjectileInterface;
+import com.vomiter.rangedjs.projectile.hitevents.ArrowHitBlockEventJS;
 import com.vomiter.rangedjs.projectile.hitevents.ArrowHitEntityEventJS;
-import net.minecraft.world.damagesource.DamageSource;
+import com.vomiter.rangedjs.projectile.hitevents.ProjectileHitEventJS;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.entity.EntityAccess;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -46,15 +49,14 @@ public abstract class AbstractArrowMixin implements EntityAccess, ProjectileInte
         damage.set(Math.round(eventJS.getDamage()));
     }
 
-    /*
     @Inject(method = "onHitBlock", at = @At(value = "HEAD"), cancellable = true)
     private void doOnHitBlock(BlockHitResult hitResult, CallbackInfo ci){
         ArrowHitBlockEventJS eventJS = new ArrowHitBlockEventJS(hitResult, (Projectile) (Object) this, ci);
-        HitBehavior arrowhitBehavior = this.rangedjs$rjs$rjs$getHitBehavior();
+        HitBehavior arrowhitBehavior = this.rangedjs$getHitBehavior();
         Optional.ofNullable(arrowhitBehavior.getHitBlock()).orElse(t->{}).accept(eventJS);
         if(eventJS.getEventResult() == ProjectileHitEventJS.Result.DENY) ci.cancel();
     }
-     */
+
 
     @Unique
     @Inject(method="doPostHurtEffects", at=@At("HEAD"))
