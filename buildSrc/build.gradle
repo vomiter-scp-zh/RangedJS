@@ -1,0 +1,24 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation localGroovy()
+    implementation gradleApi()
+}
+
+/*
+gradlePlugin {
+    plugins {
+        vomiterNeoForgeBase {
+            id = "com.vomiter.neoforge-base"
+            implementationClass = "com.vomiter.NeoForgeBasePlugin"
+        }
+    }
+}
+ */
