@@ -1,10 +1,10 @@
 package com.vomiter.rangedjs.mixin;
 
-import com.vomiter.rangedjs.item.ArrowShootingProperties;
 import com.vomiter.rangedjs.item.bow.BowItemInterface;
 import com.vomiter.rangedjs.item.bow.BowProperties;
 import com.vomiter.rangedjs.item.context.BowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
+import com.vomiter.rangedjs.util.RJSCallbackSafety;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -33,12 +33,21 @@ public abstract class BowItemMixin implements BowItemInterface {
     public void rjs$setProperties(BowProperties bowProperties){this.rjs$bowProperties = (BowProperties) bowProperties;}
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void beforePull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
+    private void beforePull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
         BowUseContext ctx = new BowUseContext(level, player, hand, cir);
         ItemStack item = player.getItemInHand(hand);
-        this.rjs$getUseCallback().accept(ctx);
-        if(ctx.getResult().equals(UseContext.Result.DENY)) cir.setReturnValue(InteractionResultHolder.fail(item));
-        else if(ctx.getResult().equals(UseContext.Result.ALLOW)) {
+
+        RJSCallbackSafety.safeAccept(
+                "bow.use",
+                this.rjs$getUseCallback(),
+                ctx,
+                item,
+                player
+        );
+
+        if (ctx.getResult().equals(UseContext.Result.DENY)) {
+            cir.setReturnValue(InteractionResultHolder.fail(item));
+        } else if (ctx.getResult().equals(UseContext.Result.ALLOW)) {
             player.startUsingItem(hand);
             cir.setReturnValue(InteractionResultHolder.consume(item));
         }

@@ -6,7 +6,11 @@ import com.vomiter.rangedjs.item.ArrowShootingInterface;
 import com.vomiter.rangedjs.item.bow.BowItemInterface;
 import com.vomiter.rangedjs.item.bow.BowUtils;
 import com.vomiter.rangedjs.item.context.BowReleaseContext;
+import com.vomiter.rangedjs.item.context.CrossbowUseContext;
+import com.vomiter.rangedjs.item.context.UseContext;
+import com.vomiter.rangedjs.item.crossbow.CrossbowItemInterface;
 import com.vomiter.rangedjs.projectile.ProjectileInterface;
+import com.vomiter.rangedjs.util.RJSCallbackSafety;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -95,9 +99,45 @@ public abstract class ProjectileWeaponItemMixin {
             if(shooter instanceof Player player){
                 BowReleaseContext bowReleaseContext = new BowReleaseContext(weapon, level, player, player.getUseItemRemainingTicks(), ci);
                 bowReleaseContext.setArrow(arrow);
-                bowItem.rjs$getReleaseCallback().accept(bowReleaseContext);
+                RJSCallbackSafety.safeAccept(
+                        "bow.release",
+                        bowItem.rjs$getReleaseCallback(),
+                        bowReleaseContext,
+                        weapon,
+                        player
+                );
             }
         }}
+    }
+
+    @Inject(
+            method = "shoot",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/server/level/ServerLevel;addFreshEntity(Lnet/minecraft/world/entity/Entity;)Z"
+            ),
+            cancellable = true
+    )
+    private void rjs$modifyCrossbow(ServerLevel level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, List<ItemStack> projectileItems, float velocity, float inaccuracy, boolean isCrit, LivingEntity target, CallbackInfo ci,
+        @Local Projectile projectile){
+        if(shooter.level().isClientSide()) return;
+        if (weapon.getItem() instanceof CrossbowItemInterface crossbowItemInterface) {
+            var callback = crossbowItemInterface.rjs$getCrossbowShootCallback();
+            CrossbowUseContext ctx = new CrossbowUseContext(level, shooter, hand, ci);
+            if (projectile instanceof AbstractArrow arrow) ctx.setArrow(arrow);
+
+            RJSCallbackSafety.safeAccept(
+                    "crossbow.shoot",
+                    callback,
+                    ctx,
+                    weapon,
+                    shooter
+            );
+
+            if (ctx.getResult().equals(UseContext.Result.DENY)) {
+                ci.cancel();
+            }
+        }
     }
 
 }

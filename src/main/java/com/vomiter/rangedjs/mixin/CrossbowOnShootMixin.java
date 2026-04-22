@@ -4,14 +4,10 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.vomiter.rangedjs.item.context.CrossbowUseContext;
-import com.vomiter.rangedjs.item.context.UseContext;
 import com.vomiter.rangedjs.item.crossbow.CrossbowItemInterface;
 import com.vomiter.rangedjs.projectile.ProjectileInterface;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -23,8 +19,6 @@ import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = CrossbowItem.class)
 public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
@@ -102,6 +96,7 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
                 return original;
     }
 
+    /*
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
     private void onShoot(
             Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
@@ -111,4 +106,6 @@ public abstract class CrossbowOnShootMixin implements CrossbowItemInterface {
         this.rjs$getCrossbowShootCallback().accept(ctx);
         if(ctx.getResult().equals(UseContext.Result.DENY)) cir.setReturnValue(InteractionResultHolder.fail(item));
     }
+
+     */
 }

@@ -2,6 +2,7 @@ package com.vomiter.rangedjs.item.context;
 
 import dev.latvian.mods.rhino.util.HideFromJS;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.ArrowItem;
@@ -15,8 +16,8 @@ public class CrossbowUseContext extends UseContext {
     private AbstractArrow arrow = null;
 
 
-    public CrossbowUseContext(Level level, Player player, InteractionHand hand, CallbackInfo ci) {
-        super(level, player, hand, ci);
+    public CrossbowUseContext(Level level, LivingEntity shooter, InteractionHand hand, CallbackInfo ci) {
+        super(level, shooter, hand, ci);
         crossbow = this.getPlayer().getItemInHand(hand);
         ItemStack ammoStack = this.getPlayer().getProjectile(crossbow);
         if(ammoStack.getItem() instanceof ArrowItem) {

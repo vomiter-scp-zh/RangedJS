@@ -5,10 +5,7 @@ import com.vomiter.rangedjs.item.context.CrossbowUseContext;
 import com.vomiter.rangedjs.item.context.UseContext;
 import com.vomiter.rangedjs.item.crossbow.CrossbowItemInterface;
 import com.vomiter.rangedjs.item.crossbow.CrossbowProperties;
-import com.vomiter.rangedjs.util.CrossbowChargeTimeInverse;
-import com.vomiter.rangedjs.util.QuickChargeEffects;
-import com.vomiter.rangedjs.util.QuickChargeInspector;
-import com.vomiter.rangedjs.util.RJSEnchantmentUtil;
+import com.vomiter.rangedjs.util.*;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -47,17 +44,26 @@ public class CrossbowItemMixin implements CrossbowItemInterface {
 
 
     @Inject(method = "use", at = @At("HEAD"), cancellable = true)
-    private void onPull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir){
+    private void onPull(Level level, Player player, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir) {
         CrossbowUseContext ctx = new CrossbowUseContext(level, player, hand, cir);
         ItemStack item = player.getItemInHand(hand);
-        if(CrossbowItem.isCharged(item)) return;
-        this.rjs$getUseCallback().accept(ctx);
-        if(ctx.getResult().equals(UseContext.Result.DENY)) cir.setReturnValue(InteractionResultHolder.fail(item));
-        else if(ctx.getResult().equals(UseContext.Result.ALLOW)) {
+
+        if (CrossbowItem.isCharged(item)) return;
+
+        RJSCallbackSafety.safeAccept(
+                "crossbow.use",
+                this.rjs$getUseCallback(),
+                ctx,
+                item,
+                player
+        );
+
+        if (ctx.getResult().equals(UseContext.Result.DENY)) {
+            cir.setReturnValue(InteractionResultHolder.fail(item));
+        } else if (ctx.getResult().equals(UseContext.Result.ALLOW)) {
             player.startUsingItem(hand);
             cir.setReturnValue(InteractionResultHolder.consume(item));
         }
-
     }
 
     @ModifyConstant(method = "getChargeDuration", constant = @Constant(floatValue = 1.25F))
