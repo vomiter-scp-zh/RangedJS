@@ -18,8 +18,8 @@ public class CrossbowUseContext extends UseContext {
 
     public CrossbowUseContext(Level level, LivingEntity shooter, InteractionHand hand, CallbackInfo ci) {
         super(level, shooter, hand, ci);
-        crossbow = this.getPlayer().getItemInHand(hand);
-        ItemStack ammoStack = this.getPlayer().getProjectile(crossbow);
+        crossbow = this.getShooter().getItemInHand(hand);
+        ItemStack ammoStack = this.getShooter().getProjectile(crossbow);
         if(ammoStack.getItem() instanceof ArrowItem) {
             arrowStack = ammoStack;
         } else {
